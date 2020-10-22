@@ -56,8 +56,30 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
      * las siguiente funciones seran los listeners de los botones y demas objetos declarados en el xml correspondiente
      */
     public void IniciarOnClick(View view) {
+        //validando datos
+        boolean validado=true;
+        String usuario=userTxt.getText().toString();
+        int cont=0;
+        try{
+            cont=Integer.parseInt(contraseñaTxt.getText().toString());
+        }catch(Exception e){
+            validado=false;
+        }
+        if(usuario.length()==0){
+            validado=false;
+            //mensaje para el usuario
 
+        }
 
+        if(cont!=4){
+            validado=false;
+        }
+
+        if(validado){
+            IniciarSesión(usuario, cont);
+        }else{
+            Toast.makeText(getApplicationContext(),"No se pudo realizar el inicio de sesión, vuelve a intentarlo",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void crearOnClick(View view) {
@@ -66,57 +88,35 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     }
 
 
-    private void IniciarSesión(){
-
+    private void IniciarSesión(String user,int pass){
+        String url="http://agendapp.atwebpages.com/iniciodeSesion.php?usuario="+user+"&clave="+pass;
+        jrq=new JsonObjectRequest(Request.Method.GET,url,null,this,this);
+        rq = Volley.newRequestQueue (getApplicationContext ());
+        rq.add(jrq);
     }
+
     @Override
     public void onErrorResponse ( VolleyError error ) {
-        Toast.makeText ( getApplicationContext (),error.toString (),Toast.LENGTH_SHORT).show ();
+        Toast.makeText ( getApplicationContext (),"No se pudo conectar con la base de datos",Toast.LENGTH_SHORT).show ();
     }
     @Override
     public void onResponse ( JSONObject response ) {
-        int id;
-        String nombre;
-        String apellido;
-        char tipo;
-        String usuario;
-        String r;
-
+        boolean v;
         try {
-            JSONArray json=response.optJSONArray("usuario");
-
-            JSONObject jsonObject=json.getJSONObject(0);
-            id=jsonObject.optInt("id");
-            nombre=jsonObject.optString("nombre");
-            apellido=jsonObject.optString("apellido");
-
-            r=jsonObject.optString("tipo");
-            tipo=r.charAt(0);
-            usuario=user.getText().toString();
-            Character tip=tipo;
-
-
-            Usuario User = new Usuario (nombre, apellido, tipo, usuario);
-            User.setId(id);
+            JSONArray json=response.optJSONArray("Acceso exitoso");
 
 
 
+            v=json.getBoolean(0);
 
-            if(User.getId()==-1){
-                Toast.makeText ( getApplicationContext (),"No se encontro el usuario", Toast.LENGTH_SHORT ).show ();
-            }else if(User.getId()==-2){
-                Toast.makeText ( getApplicationContext (),"error al conectar con la base", Toast.LENGTH_SHORT ).show ();
+            if(v){
+                //crear usuario estatico
+
+                Toast.makeText(getApplicationContext(),"Se a realizado la verificación con exito",Toast.LENGTH_SHORT ).show();
             }else{
-                //Toast.makeText ( getApplicationContext (),"Bienvenido", Toast.LENGTH_SHORT ).show ();
 
-                UsuarioActual.usuario=User;
-                Intent cambio1 = new Intent( getApplicationContext(), opciones.class );
-                startActivity ( cambio1 );
-                login.this.finish ();
-
+                Toast.makeText(getApplicationContext(),"Usuario o contraseña no validos", Toast.LENGTH_SHORT).show();
             }
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();
