@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
 
         }
 
-        if(cont!=4){
+        if(Integer.toString(cont).length()!=4){
             validado=false;
         }
 
@@ -97,15 +97,13 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
 
     @Override
     public void onErrorResponse ( VolleyError error ) {
-        Toast.makeText ( getApplicationContext (),"No se pudo conectar con la base de datos",Toast.LENGTH_SHORT).show ();
+        Toast.makeText ( getApplicationContext (),"No se pudo conectar con la base de datos"+error.toString(),Toast.LENGTH_SHORT).show ();
     }
     @Override
     public void onResponse ( JSONObject response ) {
         boolean v;
         try {
-            JSONArray json=response.optJSONArray("Acceso exitoso");
-
-
+            JSONArray json=response.optJSONArray("Acceso");
 
             v=json.getBoolean(0);
 
