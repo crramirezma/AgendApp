@@ -18,6 +18,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.agendapp.Clases.Usuario;
+import com.example.agendapp.MainActivity;
 import com.example.agendapp.R;
 import com.example.agendapp.Registro.Register;
 
@@ -33,6 +34,10 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     //variables de las vistas
     EditText userTxt;
     EditText contraseñaTxt;
+
+
+    String usuario;
+    int cont=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     public void IniciarOnClick(View view) {
         //validando datos
         boolean validado=true;
-        String usuario=userTxt.getText().toString();
-        int cont=0;
+        usuario=userTxt.getText().toString();
+        cont=0;
         try{
             cont=Integer.parseInt(contraseñaTxt.getText().toString());
         }catch(Exception e){
@@ -90,6 +95,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
 
     private void IniciarSesión(String user,int pass){
         String url="http://agendapp.atwebpages.com/iniciodeSesion.php?usuario="+user+"&clave="+pass;
+        url=url.replace(" ","%20");
         jrq=new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         rq = Volley.newRequestQueue (getApplicationContext ());
         rq.add(jrq);
@@ -102,15 +108,50 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     @Override
     public void onResponse ( JSONObject response ) {
         boolean v;
-        try {
-            JSONArray json=response.optJSONArray("Acceso");
 
-            v=json.getBoolean(0);
+        Usuario user=new Usuario(usuario,cont);
+
+        String nombre="";
+        String apellido="";
+        String carrera="";
+        String ciudad="";
+        int edad=0;
+
+        try {
+            JSONArray json=response.optJSONArray("Usuario");
+
+
+
+
+            JSONObject jsonObject=json.getJSONObject(0);
+            v=jsonObject.optBoolean("Acceso");
 
             if(v){
-                //crear usuario estatico
+                nombre=jsonObject.optString("nombre");
+                apellido=jsonObject.optString("apellido");
+                carrera=jsonObject.optString("carrera");
+                ciudad=jsonObject.optString("ciudad");
+                edad=jsonObject.optInt("edad");
+
+                //igual se le asignaran los valores al usuario
+                user.setNombre(nombre);
+                user.setApellido(apellido);
+                user.setCarrera(carrera);
+                user.setCiudad(ciudad);
+                user.setEdad(edad);
 
                 Toast.makeText(getApplicationContext(),"Se a realizado la verificación con exito",Toast.LENGTH_SHORT ).show();
+
+                //se le asigna a un valor estatico el usuario
+                SesionActual.usuarioActual=user;
+
+
+                //Zona de Intents y nuevas vistas
+                /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
+
+                Intent intent=new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+                this.finish();
             }else{
 
                 Toast.makeText(getApplicationContext(),"Usuario o contraseña no validos", Toast.LENGTH_SHORT).show();

@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.agendapp.Login.Login;
+import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Registro.Register;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,7 +17,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent Registro = new Intent ( this, Login.class );
-        MainActivity.this.startActivity(Registro);
+
+        if(SesionActual.usuarioActual==null){
+            Intent Registro = new Intent ( this, Login.class );
+            MainActivity.this.startActivity(Registro);
+            this.finish();
+        }else{
+            Toast.makeText(getApplicationContext(),"hola mundo :"+SesionActual.usuarioActual.getCiudad(),Toast.LENGTH_LONG).show();
+        }
+
+
     }
 }
