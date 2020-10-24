@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     //variables de las vistas
     EditText userTxt;
     EditText contraseñaTxt;
-
+    TextView usuarioMsg;
 
     String usuario;
     int cont=0;
@@ -53,6 +53,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     public void iniciar(){
         contraseñaTxt=findViewById(R.id.contraseñaTxt);
         userTxt= findViewById(R.id.usuarioTxt);
+
+        usuarioMsg=findViewById(R.id.usuarioMsg);
     }
 
 
@@ -72,7 +74,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
         }
         if(usuario.length()==0){
             validado=false;
-            //mensaje para el usuario
+            usuarioMsg.setText("Este campo es obligatorio");
 
         }
 
