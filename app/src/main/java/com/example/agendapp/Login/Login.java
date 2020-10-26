@@ -34,6 +34,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     //variables de las vistas
     EditText userTxt;
     EditText contraseñaTxt;
+    TextView usuarioLmsg;
+    TextView contraseñaLmsg;
 
 
     String usuario;
@@ -53,6 +55,9 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     public void iniciar(){
         contraseñaTxt=findViewById(R.id.contraseñaTxt);
         userTxt= findViewById(R.id.usuarioTxt);
+
+        usuarioLmsg=findViewById(R.id.usuarioLmsg);
+        contraseñaLmsg=findViewById(R.id.contraseñaLmsg);
     }
 
 
@@ -63,6 +68,9 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     public void IniciarOnClick(View view) {
         //validando datos
         boolean validado=true;
+        usuarioLmsg.setText("");
+        contraseñaLmsg.setText("");
+
         usuario=userTxt.getText().toString();
         cont=0;
         try{
@@ -73,11 +81,13 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
         if(usuario.length()==0){
             validado=false;
             //mensaje para el usuario
+            usuarioLmsg.setText("Este campo es obligatorio");
 
         }
 
         if(Integer.toString(cont).length()!=4){
             validado=false;
+            contraseñaLmsg.setText("La contraseña debe ser de cuatro digitos");
         }
 
         if(validado){

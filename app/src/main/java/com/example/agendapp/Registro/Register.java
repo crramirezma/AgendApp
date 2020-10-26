@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +34,9 @@ public class Register extends AppCompatActivity {
     EditText usuarioTxt;
     EditText contraseñaTxt;
     EditText rContraseñaTxt;
+    TextView usuarioRmsg;
+    TextView tamcontraseñaRmsg;
+    TextView confirmcontraseñaRmsg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,12 @@ public class Register extends AppCompatActivity {
         usuarioTxt=findViewById(R.id.usuarioTxt);
         contraseñaTxt=findViewById(R.id.contraseñaTxt);
         rContraseñaTxt=findViewById(R.id.rcontraseñaTxt);
+
+        usuarioRmsg=findViewById(R.id.usuarioRmsg);
+        tamcontraseñaRmsg=findViewById(R.id.tamcontraseñaRmsg);
+        confirmcontraseñaRmsg=findViewById(R.id.confirmcontraseñaRmsg);
     }
+
 
     public void registroListener(View view) {
         String usuario=usuarioTxt.getText().toString();
@@ -57,6 +66,7 @@ public class Register extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(),"Error en los datos suministrados, vuelva a intentarlo",Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public void inicioSListener(View view) {
@@ -66,22 +76,29 @@ public class Register extends AppCompatActivity {
 
     private boolean validar(String usuario, String contraseña){
         boolean v=true;
+        usuarioRmsg.setText("");
+        tamcontraseñaRmsg.setText("");
+        confirmcontraseñaRmsg.setText("");
 
 
         //validando que se halla escrito nombre de usuario
         if(usuario.length()==0){
-            /*programar mensajito para esto*/
             v=false;
+            /*programar mensajito para esto*/
+            usuarioRmsg.setText("Este campo es obligatorio");
         }
         //validando tamaño de codigo
         if(contraseña.length()!=4){
-            /*programar mensajito para esto*/
             v=false;
+            /*programar mensajito para esto*/
+            tamcontraseñaRmsg.setText("La contraseña debe ser de cuatro digitos");
         }
         //validando que los dos codigos sean iguales
         if(!contraseña.equals(rContraseñaTxt.getText().toString())){
-            /*programar mensajito para esto*/
             v=false;
+            /*programar mensajito para esto*/
+            confirmcontraseñaRmsg.setText("Las contraseñas no coinciden");
+
         };
 
         return v;
