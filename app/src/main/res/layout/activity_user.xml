@@ -27,58 +27,55 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/nombreTxt"
                 android:layout_width="237dp"
-                android:layout_height="31dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
-                android:text="TextView"
                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-            <TextView
+            <EditText
                 android:id="@+id/apellidoTxt"
                 android:layout_width="237dp"
-                android:layout_height="31dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
-                android:text="TextView"
                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nombreTxt" />
 
-            <TextView
+            <EditText
                 android:id="@+id/carreraTxt"
                 android:layout_width="237dp"
-                android:layout_height="31dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
-                android:text="TextView"
                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/apellidoTxt" />
 
-            <TextView
+            <EditText
                 android:id="@+id/edadTxt"
                 android:layout_width="237dp"
-                android:layout_height="31dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="30dp"
-                android:text="TextView"
+                android:layout_marginTop="40dp"
                 android:textSize="18dp"
+                android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/carreraTxt" />
 
             <EditText
                 android:id="@+id/ciudadTxt"
                 android:layout_width="237dp"
-                android:layout_height="31dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
@@ -88,7 +85,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/edadTxt" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/modBt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="133dp"
@@ -100,6 +97,21 @@
                 android:textColor="#ffffff"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ciudadTxt" />
+
+            <ImageButton
+
+                android:id="@+id/imageButton"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:onClick="returnOnClick"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_before" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

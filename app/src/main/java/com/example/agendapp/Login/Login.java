@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.agendapp.Clases.Usuario;
 import com.example.agendapp.MainActivity;
+import com.example.agendapp.Menu.MenuActivity;
 import com.example.agendapp.R;
 import com.example.agendapp.Registro.Register;
 
@@ -150,6 +151,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                 user.setCiudad(ciudad);
                 user.setEdad(edad);
 
+
                 Toast.makeText(getApplicationContext(),"Se a realizado la verificación con exito",Toast.LENGTH_SHORT ).show();
 
                 //se le asigna a un valor estatico el usuario
@@ -159,7 +161,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                 //Zona de Intents y nuevas vistas
                 /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
 
-                Intent intent=new Intent(this, MainActivity.class);
+                Intent intent=new Intent(this, MenuActivity.class);
                 this.startActivity(intent);
                 this.finish();
             }else{
