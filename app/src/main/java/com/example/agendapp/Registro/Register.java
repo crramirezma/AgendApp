@@ -44,6 +44,7 @@ public class Register extends AppCompatActivity {
     //funcion para inicializacion de variables
     private void inicializar(){
         usuarioTxt=findViewById(R.id.usuarioTxt);
+
         contraseñaTxt=findViewById(R.id.contraseñaTxt);
         rContraseñaTxt=findViewById(R.id.rcontraseñaTxt);
     }
@@ -97,7 +98,7 @@ public class Register extends AppCompatActivity {
                     v=json.getBoolean(0);
 
                     if(v){
-                        Toast.makeText(getApplicationContext(),"Se a creado el nuevo usuario con exito",Toast.LENGTH_SHORT ).show();
+                        Toast.makeText(getApplicationContext(),"Se ha creado el nuevo usuario con exito",Toast.LENGTH_SHORT ).show();
                     }else{
                         Toast.makeText(getApplicationContext(),"usuario ya existe", Toast.LENGTH_SHORT).show();
                     }
