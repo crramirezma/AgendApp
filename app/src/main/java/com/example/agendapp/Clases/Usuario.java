@@ -1,5 +1,7 @@
 package com.example.agendapp.Clases;
 
+import java.util.ArrayList;
+
 public class Usuario {
     private String usuario;
     private int contraseña;
@@ -8,6 +10,11 @@ public class Usuario {
     private String carrera;
     private int edad;
     private String ciudad;
+
+
+    private ArrayList<Asignatura> asignaturas=new ArrayList<>();
+
+
 
     //Este constructor se usara para el login de la aplicacion
     public Usuario(String usuario, int contraseña){
@@ -32,6 +39,13 @@ public class Usuario {
         this.contraseña=contraseña;
     }
 
+    public ArrayList<Asignatura> getAsignaturas() {
+        return asignaturas;
+    }
+    public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
+        this.asignaturas = asignaturas;
+    }
+
     public String getUsuario(){
         return this.usuario;
     }
@@ -42,7 +56,6 @@ public class Usuario {
     public String getNombre() {
         return Nombre;
     }
-
     public void setNombre(String nombre) {
         Nombre = nombre;
     }
@@ -77,5 +90,10 @@ public class Usuario {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
+    }
+
+
+    public void addAsignatura(Asignatura asignatura){
+        asignaturas.add(asignatura);
     }
 }

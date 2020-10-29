@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.agendapp.Menu.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_asignatura"
+        android:name="com.example.agendapp.Menu.ui.Asignaturas.AsignaturaFragment"
+        android:label="Asignaturas"
+        tools:layout="@layout/fragment_asignatura" />
 
     <fragment
         android:id="@+id/nav_slideshow"
