@@ -9,13 +9,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.agendapp.Clases.Usuario;
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.MenuActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class UserActivity extends AppCompatActivity {
+
+    //Variables para la consulta json
+    RequestQueue rq;
+    JsonRequest jrq;
+
 
     TextView nombre;
     TextView apellido;
@@ -77,7 +92,7 @@ public class UserActivity extends AppCompatActivity {
         }
 
 
-
+        final String edadS=usuario.getEdad()+"";
         //al principio no habra cambios, por lo que no es necesario oprimir el boton
         modBt.setClickable(false);
 
@@ -92,6 +107,47 @@ public class UserActivity extends AppCompatActivity {
                 }
             }
         });
+        apellido.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!apellido.getText().equals(SesionActual.usuarioActual.getApellido())){
+                        modBt.setClickable(true);
+                    }
+                }
+            }
+        });
+        ciudad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!ciudad.getText().equals(SesionActual.usuarioActual.getCiudad())){
+                        modBt.setClickable(true);
+                    }
+                }
+            }
+        });
+        carrera.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!carrera.getText().equals(SesionActual.usuarioActual.getCarrera())){
+                        modBt.setClickable(true);
+                    }
+                }
+            }
+        });
+        edad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (!edad.getText().equals(edadS)){
+                        modBt.setClickable(true);
+                    }
+                }
+            }
+        });
+
     }
 
     public void returnOnClick(View view) {
@@ -100,6 +156,70 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void modificarListener(View view) {
-        Toast.makeText(getApplicationContext(),"Cambio",Toast.LENGTH_SHORT).show();
+        String usuario=SesionActual.usuarioActual.getUsuario();
+        String nomb=nombre.getText().toString();
+        String ape=apellido.getText().toString();
+        String ciu=ciudad.getText().toString();
+        String carre=carrera.getText().toString();
+
+        int eda;
+        try{
+            eda=Integer.parseInt(edad.getText().toString());
+            modificar(usuario,nomb,ape,ciu,carre,eda);
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"Porfavor corregir la zona de edad",Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+    }
+
+    private void modificar(String usuario, String nom, String ap, String ciud, String car, int ed){
+        String url="http://agendapp.atwebpages.com/registro2.php?usuario="+usuario+"&nombre="+nom+"&apellido="+ap+"&ciudad="+ciud+"&carrera="+car+"&edad="+ed;
+        url=url.replace(" ","%20");
+
+
+
+        final String nomb=nom;
+        final String ape=ap;
+        final String ciu=ciud;
+        final String carr=car;
+        final int eda=ed;
+        jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                boolean v;
+                try {
+                    JSONArray json=response.optJSONArray("modificado");
+                    v=json.getBoolean(0);
+
+                    if(v){
+                        Toast.makeText(getApplicationContext(),"Se han modificado los datos con exito,   ",Toast.LENGTH_SHORT ).show();
+                        int contrasena=SesionActual.usuarioActual.getContraseña();
+                        String usuarioA=SesionActual.usuarioActual.getUsuario();
+                        Usuario usuario=new Usuario(usuarioA,contrasena,nomb,ape,carr,eda,ciu);
+                        SesionActual.usuarioActual=usuario;
+
+                        Intent intent =new Intent(UserActivity.this, MenuActivity.class);
+                        UserActivity.this.startActivity(intent);
+                        UserActivity.this.finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"No se pudo modificar", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Error modificándo los datos, porfavor intentalo mas tarde",Toast.LENGTH_SHORT).show();
+            }
+        });
+        rq = Volley.newRequestQueue (getApplicationContext ());
+        rq.add(jrq);
     }
 }
