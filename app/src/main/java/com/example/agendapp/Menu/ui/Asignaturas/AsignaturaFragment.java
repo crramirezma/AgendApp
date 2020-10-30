@@ -23,8 +23,7 @@ public class AsignaturaFragment extends Fragment {
     private RecyclerView recycler;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         asignaturaViewModel =
                 new ViewModelProvider(this).get(AsignaturaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_asignatura, container, false);
