@@ -21,8 +21,8 @@ import com.example.agendapp.R;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-
-
+//sition original de la calculadora
+//https://github.com/coding-with-me/Calculator.git
 public class CalculadoraFragment extends Fragment {
 
     private CalculadoraViewModel calculadoraViewModel;
