@@ -4,15 +4,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.agendapp.Adapters.AsignaturasAdapter;
+import com.example.agendapp.Clases.Asignatura;
+import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.R;
 
 
@@ -21,7 +28,7 @@ public class AsignaturaFragment extends Fragment {
     private AsignaturaViewModel asignaturaViewModel;
 
     private RecyclerView recycler;
-
+    private ImageButton NuevaAsignatura;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         asignaturaViewModel =
@@ -34,12 +41,30 @@ public class AsignaturaFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
-
-
-
-        recycler=root.findViewById(R.id.recycler);
-
-
+        iniciar(root);
         return root;
+    }
+    public void iniciar(View root){
+        recycler=root.findViewById(R.id.recycler);
+        NuevaAsignatura=root.findViewById(R.id.NuevaAsignaturaBt);
+        NuevaAsignatura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirDialogo();
+            }
+        });
+
+
+
+
+        recycler.setLayoutManager(new LinearLayoutManager(AsignaturaFragment.this.getContext()));
+        AsignaturasAdapter adapter=new AsignaturasAdapter(getContext());
+        recycler.setAdapter(adapter);
+        
+    }
+
+    public void abrirDialogo(){
+        AsignaturaDialog asignaturaDialog=new AsignaturaDialog();
+        asignaturaDialog.show(getParentFragmentManager(),"Nuevo Dialogo");
     }
 }

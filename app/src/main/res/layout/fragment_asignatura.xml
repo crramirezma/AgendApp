@@ -7,7 +7,7 @@
     tools:context=".Menu.ui.Asignaturas.AsignaturaFragment">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/NuevaAsignaturaBt"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginTop="16dp"
@@ -24,5 +24,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/NuevaAsignaturaBt" />
 </androidx.constraintlayout.widget.ConstraintLayout>

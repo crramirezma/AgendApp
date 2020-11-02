@@ -8,9 +8,13 @@ public class Asignatura {
     private double tiempoEstudio;
 
     public Asignatura(String nombre, int creditos, double tiempoEstudio) {
+        this(nombre, creditos);
+        this.tiempoEstudio=tiempoEstudio;
+    }
+
+    public Asignatura(String nombre,int creditos){
         this.nombre=nombre;
         this.creditos=creditos;
-        this.tiempoEstudio=tiempoEstudio;
     }
 
     private ArrayList<Subtema> subtemas=new ArrayList<>();
