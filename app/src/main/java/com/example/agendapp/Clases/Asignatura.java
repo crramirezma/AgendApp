@@ -3,6 +3,10 @@ package com.example.agendapp.Clases;
 import java.util.ArrayList;
 
 public class Asignatura {
+    int id;
+
+
+    private ArrayList<Subtema> subtemas=new ArrayList<>();
     private String nombre;
     private int creditos;
     private double tiempoEstudio;
@@ -17,8 +21,14 @@ public class Asignatura {
         this.creditos=creditos;
     }
 
-    private ArrayList<Subtema> subtemas=new ArrayList<>();
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public ArrayList<Subtema> getsubtemas() {
         return subtemas;
     }

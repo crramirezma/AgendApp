@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.agendapp.Clases.Asignatura;
 import com.example.agendapp.Clases.Usuario;
 import com.example.agendapp.MainActivity;
 import com.example.agendapp.Menu.MenuActivity;
@@ -158,12 +159,9 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                 SesionActual.usuarioActual=user;
 
 
-                //Zona de Intents y nuevas vistas
-                /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
 
-                Intent intent=new Intent(this, MenuActivity.class);
-                this.startActivity(intent);
-                this.finish();
+                llenarAsignaturas();
+
             }else{
 
                 Toast.makeText(getApplicationContext(),"Usuario o contraseña no validos", Toast.LENGTH_SHORT).show();
@@ -175,6 +173,73 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
 
 
 
+    }
+
+    public void llenarAsignaturas(){
+        String url="http://agendapp.atwebpages.com/Asignaturas/listarAsignaturas.php?usuario="+SesionActual.usuarioActual.getUsuario();
+        url=url.replace(" ","%20");
+        jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Asignatura asig;
+
+
+                JSONArray json;
+                int id;
+                int creditos;
+
+                String nombreAsignatura;
+
+                double tiempo;
+
+                JSONObject jsonObject;
+
+
+                json=response.optJSONArray("Asignaturas");
+
+                try {
+                    for(int i=0;i<json.length();i++){
+
+
+
+
+                        jsonObject=json.getJSONObject(i);
+                        id=jsonObject.optInt("id");
+                        nombreAsignatura=jsonObject.optString("nombre");
+                        creditos=jsonObject.optInt("creditos");
+                        tiempo=jsonObject.optDouble("double");
+                        asig=new Asignatura(nombreAsignatura,creditos,tiempo);
+                        asig.setId(id);
+                        
+                        SesionActual.usuarioActual.addAsignatura(asig);
+
+                    }
+
+
+
+
+                    //Zona de Intents y nuevas vistas
+                    /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
+                    Intent intent = new Intent ( Login.this, MenuActivity.class );
+                    Login.this.startActivity(intent);
+                    Login.this.finish();
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText ( getApplicationContext (),"No se pudo conectar con la base de datos"+error.toString(),Toast.LENGTH_SHORT).show ();
+            }
+        });
+        rq = Volley.newRequestQueue (getApplicationContext ());
+        rq.add(jrq);
     }
 
 

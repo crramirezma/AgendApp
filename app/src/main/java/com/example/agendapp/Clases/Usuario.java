@@ -96,4 +96,8 @@ public class Usuario {
     public void addAsignatura(Asignatura asignatura){
         asignaturas.add(asignatura);
     }
+
+    public void setAsignatura(int posicion, Asignatura asignatura){
+        asignaturas.set(posicion,asignatura);
+    }
 }

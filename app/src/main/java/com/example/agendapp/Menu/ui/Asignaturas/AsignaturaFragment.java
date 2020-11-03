@@ -64,7 +64,11 @@ public class AsignaturaFragment extends Fragment {
     }
 
     public void abrirDialogo(){
-        AsignaturaDialog asignaturaDialog=new AsignaturaDialog();
+        AsignaturaDialog asignaturaDialog=new AsignaturaDialog(getActivity());
         asignaturaDialog.show(getParentFragmentManager(),"Nuevo Dialogo");
+    }
+
+    public void abrirSubtema(){
+
     }
 }

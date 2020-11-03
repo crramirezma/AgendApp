@@ -7,13 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.ui.Asignaturas.AsignaturaDialog;
+import com.example.agendapp.Menu.ui.Asignaturas.subCarpetas.SubTemaFragment;
 import com.example.agendapp.R;
 
 import java.util.ArrayList;
@@ -38,6 +43,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
     @Override
     public void onBindViewHolder(@NonNull asignaturasHolder holder, int position) {
         try{
+            holder.context=context;
             holder.asignarDatos(position);
 
         }catch (IndexOutOfBoundsException e){
@@ -58,6 +64,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
         ImageButton btAsignatura;
         TextView NumeroTxt;
 
+        Context context;
 
         public asignaturasHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +77,14 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                 @Override
                 public void onClick(View v) {
                     //abrirDialogo(Integer.parseInt(NumeroTxt.getText().toString()));
+
+                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
+                    Toast.makeText(context,SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString())).getId()+"",Toast.LENGTH_SHORT).show();
+                    /*Fragment nuevoFragmento = new SubTemaFragment();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.fragment_as, nuevoFragmento);
+                    transaction.addToBackStack(null);
+                    transaction.commit();*/
                 }
             });
         }
@@ -80,8 +95,15 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
         }
 
         public void abrirDialogo(int i){
-            AsignaturaDialog asignaturaDialog=new AsignaturaDialog();
-            asignaturaDialog.show(((AppCompatActivity) context).getSupportFragmentManager(),"Nuevo Dialogo");
+            int pos;
+            try{
+                pos=Integer.parseInt(NumeroTxt.getText().toString());
+                AsignaturaDialog asignaturaDialog=new AsignaturaDialog(pos,context);
+                asignaturaDialog.show(((AppCompatActivity) context).getSupportFragmentManager(),"Nuevo Dialogo");
+            }catch (Exception e){
+                Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }
