@@ -66,13 +66,17 @@ public class Tablero extends AppCompatActivity {
         }
 
     public void GuardarTablero(View view) {
-        //myCanvas.guardarTablero();
+        myCanvas.guardarTablero();
+    }
+
+    public void cargarTablero(View view) {
         myCanvas.cargarTablero("tablero1");
 
     }
 
+
     public void ColorRojo(View view) {
-        myCanvas.guardarTablero(); //
+        //myCanvas.guardarTablero(); //
         myCanvas.borrado(false);
         myCanvas.lapiz.setColor(Color.RED);
     }

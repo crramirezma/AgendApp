@@ -148,6 +148,7 @@ public class MyCanvas extends View {
 
     private void ponerImagen(Bitmap imagen) {
         this.imagen = imagen;
+        canvasDibujo.drawBitmap(imagen,0 , 0, canvasLapiz);
         invalidate();
     }
 
