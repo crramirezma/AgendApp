@@ -40,7 +40,7 @@
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_folder" />
+            app:srcCompat="@drawable/opcion_3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

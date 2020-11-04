@@ -12,7 +12,7 @@
             android:title="Principal" />
         <item
             android:id="@+id/nav_asignatura"
-            android:icon="@drawable/ic_folder"
+            android:icon="@drawable/opcion_3"
             android:title="Asignaturas" />
     </group>
     <group>

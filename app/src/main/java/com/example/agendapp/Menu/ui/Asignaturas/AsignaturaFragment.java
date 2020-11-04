@@ -41,7 +41,11 @@ public class AsignaturaFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
+
         iniciar(root);
+
+        //probando el cambio de imagenes
+
         return root;
     }
     public void iniciar(View root){
@@ -59,6 +63,7 @@ public class AsignaturaFragment extends Fragment {
 
         recycler.setLayoutManager(new LinearLayoutManager(AsignaturaFragment.this.getContext()));
         AsignaturasAdapter adapter=new AsignaturasAdapter(getContext());
+        adapter.asignatura=getParentFragment();
         recycler.setAdapter(adapter);
         
     }

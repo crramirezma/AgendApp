@@ -1,5 +1,6 @@
 package com.example.agendapp.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.asignaturasHolder>{
     public Context context;
+    public Fragment asignatura;
 
     public AsignaturasAdapter(Context context){
         this.context=context;
@@ -76,15 +78,8 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
             btAsignatura.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //abrirDialogo(Integer.parseInt(NumeroTxt.getText().toString()));
+                    Toast.makeText(asignatura.getContext(),"",Toast.LENGTH_SHORT).show();
 
-                    FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
-                    Toast.makeText(context,SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString())).getId()+"",Toast.LENGTH_SHORT).show();
-                    /*Fragment nuevoFragmento = new SubTemaFragment();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.replace(R.id.fragment_as, nuevoFragmento);
-                    transaction.addToBackStack(null);
-                    transaction.commit();*/
                 }
             });
         }
