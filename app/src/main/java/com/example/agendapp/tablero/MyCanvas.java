@@ -1,61 +1,106 @@
 package com.example.agendapp.tablero;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import java.util.Vector;
 
 import androidx.annotation.Nullable;
 
-public class MyCanvas extends View {
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-    Paint paint;
-    Path path;
+public class MyCanvas extends View {
+    protected Paint lapiz, canvasLapiz;
+    protected Path dibujador;
+    protected Bitmap cache, imagen;
+    protected Canvas canvasDibujo;
+    protected int colorFondo = Color.WHITE;
+    protected String nombreArchivo = "tablero1";
+    protected Vector Fondo;
+    protected boolean modoBrocha;
 
     public MyCanvas(Context context, @Nullable AttributeSet attrs) {
+
         super(context, attrs);
 
-        paint = new Paint();
-        path = new Path();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
-
+        lapiz = new Paint();
+        dibujador = new Path();
+        lapiz.setAntiAlias(true);
+        lapiz.setColor(Color.BLUE);
+        lapiz.setDither(true);
         //Configurar el bordeado de la punta
-        paint.setStrokeJoin(Paint.Join.ROUND);
+        lapiz.setStrokeJoin(Paint.Join.ROUND);
 
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10f);
-
+        canvasLapiz  = new Paint(Paint.DITHER_FLAG); //Difuminado
+        lapiz.setStyle(Paint.Style.STROKE);
+        lapiz.setStrokeWidth(10f);
 
 
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        cache = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        canvasDibujo = new Canvas(cache);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawPath(path,paint);
+
+        canvas.drawColor(Color.BLACK);
+        if(imagen != null){
+            canvas.drawBitmap(imagen,0 , 0, canvasLapiz);
+            //System.out.print("Entró");
+        }
+        canvas.drawBitmap(cache, 0,0, canvasLapiz);
+
+        canvas.drawPath(dibujador,lapiz);
+
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float xPos = event.getX();
         float yPos = event.getY();
-
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-                path.moveTo(xPos,yPos);
-                return true;
+                dibujador.moveTo(xPos,yPos);
+                break;
             case MotionEvent.ACTION_MOVE:
-                path.lineTo(xPos, yPos);
+                //dibujador.lineTo(xPos, yPos);
+                if(modoBrocha){
+                    dibujador.addCircle(xPos, yPos, this.lapiz.getStrokeWidth(), Path.Direction.CW);
+
+                }
+                else{
+                    dibujador.lineTo(xPos, yPos);
+                }
                 break;
             case MotionEvent.ACTION_UP:
-                return false;
+
+                if(modoBrocha){
+                    dibujador.addCircle(xPos, yPos, this.lapiz.getStrokeWidth(), Path.Direction.CW);
+                }
+                else{
+                    dibujador.lineTo(xPos, yPos);
+                }
+                canvasDibujo.drawPath(dibujador,lapiz);
+                dibujador.reset();
+                break;
             default:
                 return false;
 
@@ -63,5 +108,65 @@ public class MyCanvas extends View {
 
         invalidate();
         return true;
+    }
+
+
+    public void guardarTablero() {
+
+        //this.setDrawingCacheEnabled(true);
+        File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File tableros = new File(root,  "/Tableros/");
+        tableros.mkdirs();
+        File imagen = new File(tableros,  nombreArchivo + ".jpg");
+
+
+
+        //System.out.println(imagen.getAbsoluteFile());
+
+        try {
+            if (!imagen.exists()) imagen.createNewFile();
+            FileOutputStream out = new FileOutputStream(imagen);
+            cache.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //this.setDrawingCacheEnabled(false);
+    }
+
+    public void cargarTablero(String nombre){
+        File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File archivo = new File(root, "/Tableros/"+nombre+".jpg");
+        BitmapFactory.Options config = new BitmapFactory.Options();
+        config.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap imagen = BitmapFactory.decodeFile(archivo.getAbsolutePath());
+
+        ponerImagen(imagen);
+    }
+
+    private void ponerImagen(Bitmap imagen) {
+        this.imagen = imagen;
+        invalidate();
+    }
+
+    public void borrado(boolean borramos){
+        if(borramos){
+            lapiz.setColor(Color.BLACK);
+            lapiz.setStrokeWidth(50f);
+        }
+        else{
+            lapiz.setStrokeWidth(10f);
+        }
+
+    }
+
+    public void setTamaño(float tam){
+        lapiz.setStrokeWidth(tam);
+    }
+
+    public void setmodoBrocha(boolean bool){
+        this.modoBrocha = bool;
     }
 }
