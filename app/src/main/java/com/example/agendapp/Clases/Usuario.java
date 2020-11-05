@@ -8,7 +8,7 @@ public class Usuario {
     private String Nombre;
     private String apellido;
     private String carrera;
-    private int edad;
+    private int edad=0;
     private String ciudad;
 
 
@@ -54,14 +54,25 @@ public class Usuario {
     }
 
     public String getNombre() {
-        return Nombre;
+
+        try{
+            return Nombre;
+        }catch(Exception e){
+            return null;
+        }
+
     }
     public void setNombre(String nombre) {
         Nombre = nombre;
     }
 
     public String getApellido() {
-        return apellido;
+
+        try{
+            return apellido;
+        }catch(Exception e){
+            return null;
+        }
     }
 
     public void setApellido(String apellido) {
@@ -69,11 +80,17 @@ public class Usuario {
     }
 
     public String getCarrera() {
-        return carrera;
+
+        try{
+            return carrera;
+        }catch(Exception e){
+            return null;
+        }
     }
 
     public void setCarrera(String carrera) {
         this.carrera = carrera;
+
     }
 
     public int getEdad() {
@@ -85,7 +102,13 @@ public class Usuario {
     }
 
     public String getCiudad() {
-        return ciudad;
+
+
+        try{
+            return ciudad;
+        }catch(Exception e){
+            return null;
+        }
     }
 
     public void setCiudad(String ciudad) {

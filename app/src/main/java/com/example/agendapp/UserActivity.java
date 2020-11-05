@@ -62,31 +62,31 @@ public class UserActivity extends AppCompatActivity {
 
         //asignando los correspondientes textos a cada edittext, primero comprobar que si halla datos en el usuario
         if(usuario.getNombre()==null){
-            nombre.setHint("No ha seleccionado nombre");
+            nombre.setText("No ha seleccionado nombre");
         }else{
             nombre.setText(usuario.getNombre());
         }
 
         if(usuario.getApellido()==null){
-            apellido.setHint("No ha seleccionado apellido");
+            apellido.setText("No ha seleccionado apellido");
         }else{
             apellido.setText(usuario.getApellido());
         }
 
         if(usuario.getCarrera()==null){
-            carrera.setHint("No ha seleccionado carrera");
+            carrera.setText("No ha seleccionado carrera");
         }else{
             carrera.setText(usuario.getCarrera());
         }
 
         if(usuario.getCiudad()==null){
-            ciudad.setHint("No ha seleccionado ciudad");
+            ciudad.setText("No ha seleccionado ciudad");
         }else{
             ciudad.setText(usuario.getCiudad());
         }
 
         if(usuario.getEdad()==0){
-            edad.setHint(0);
+            edad.setText(0+"");
         }else{
             edad.setText(usuario.getEdad()+"");
         }
@@ -199,6 +199,7 @@ public class UserActivity extends AppCompatActivity {
                         int contrasena=SesionActual.usuarioActual.getContraseña();
                         String usuarioA=SesionActual.usuarioActual.getUsuario();
                         Usuario usuario=new Usuario(usuarioA,contrasena,nomb,ape,carr,eda,ciu);
+                        usuario.setAsignaturas(SesionActual.usuarioActual.getAsignaturas());
                         SesionActual.usuarioActual=usuario;
 
                         Intent intent =new Intent(UserActivity.this, MenuActivity.class);

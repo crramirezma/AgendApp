@@ -235,7 +235,12 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText ( getApplicationContext (),"No se pudo conectar con la base de datos"+error.toString(),Toast.LENGTH_SHORT).show ();
+
+                Toast.makeText ( getApplicationContext (),"No tienes asignaturas programadas",Toast.LENGTH_SHORT).show ();
+                Intent intent = new Intent ( Login.this, MenuActivity.class );
+                Login.this.startActivity(intent);
+                Login.this.finish();
+
             }
         });
         rq = Volley.newRequestQueue (getApplicationContext ());
