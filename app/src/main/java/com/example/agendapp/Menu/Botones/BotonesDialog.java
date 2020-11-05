@@ -1,14 +1,14 @@
-package com.example.agendapp.Menu.ui.Asignaturas;
+package com.example.agendapp.Menu.Botones;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -21,31 +21,35 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.agendapp.Clases.Asignatura;
-import com.example.agendapp.Clases.Usuario;
 import com.example.agendapp.Login.SesionActual;
-import com.example.agendapp.Menu.MenuActivity;
 import com.example.agendapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AsignaturaDialog extends AppCompatDialogFragment {
-    //Variables para la consulta json
+public class BotonesDialog  extends AppCompatDialogFragment {
+
     RequestQueue rq;
     JsonRequest jrq;
 
     Context context;
-
     int posicion;
-    EditText nombre;
-    EditText creditos;
-    public AsignaturaDialog(Context con){
-        context=con;
-    }
 
 
-    public AsignaturaDialog(int posicion,Context con){
+    ImageButton opcion1;
+    ImageButton opcion2;
+    ImageButton opcion3;
+    ImageButton opcion4;
+    ImageButton opcion5;
+    ImageButton opcion6;
+    ImageButton opcion7;
+    ImageButton opcion8;
+    ImageButton opcion9;
+
+
+
+    public BotonesDialog(int posicion,Context con){
         this.posicion=posicion;
         context=con;
     }
@@ -54,7 +58,7 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         LayoutInflater inflater=getActivity().getLayoutInflater();
-        View view =inflater.inflate(R.layout.new_asignatura_layoout,null);
+        View view =inflater.inflate(R.layout.botones_layout,null);
         builder.setView(view)
                 .setTitle("Nueva asignatura")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -63,37 +67,27 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
 
                     }
                 })
-                .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String nom=nombre.getText().toString();
-                        int cred=0;
-
-                        boolean v=true;
-                        try{
-                            cred=Integer.parseInt(creditos.getText().toString());
-                        }catch(Exception e){
-                            Toast.makeText(context,"Error en el valor de los creditos",Toast.LENGTH_SHORT).show();
-                            v=false;
-                        }
-                        if(v){
+                ;
 
 
-                            subir(nom,cred);
-                        }
+        opcion1=view.findViewById(R.id.opcion1);
+        opcion2=view.findViewById(R.id.opcion2);
+        opcion3=view.findViewById(R.id.opcion3);
+        opcion4=view.findViewById(R.id.opcion4);
+        opcion5=view.findViewById(R.id.opcion5);
+        opcion6=view.findViewById(R.id.opcion6);
+        opcion7=view.findViewById(R.id.opcion7);
+        opcion8=view.findViewById(R.id.opcion8);
+        opcion9=view.findViewById(R.id.opcion9);
 
-                    }
-                });
 
 
-        nombre=view.findViewById(R.id.nuevoNombreAsignaturaTxt);
-        creditos=view.findViewById(R.id.CreditosAsignaturaTxt);
         return builder.create();
     }
 
 
     public void subir(String nombre,int creditos){
-        String url="http://agendapp.atwebpages.com/Asignaturas/subirAsignatura.php?asignaturaN="+nombre+"&usuarioN="+SesionActual.usuarioActual.getUsuario()+"&creditos="+creditos;
+        String url="http://agendapp.atwebpages.com/Asignaturas/subirAsignatura.php?asignaturaN="+nombre+"&usuarioN="+ SesionActual.usuarioActual.getUsuario()+"&creditos="+creditos;
         url=url.replace(" ","%20");
 
         final String nom=nombre;
@@ -128,5 +122,4 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
         rq = Volley.newRequestQueue (context);
         rq.add(jrq);
     }
-
 }
