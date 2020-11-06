@@ -60,8 +60,8 @@ public class BotonesDialog  extends AppCompatDialogFragment {
         LayoutInflater inflater=getActivity().getLayoutInflater();
         View view =inflater.inflate(R.layout.botones_layout,null);
         builder.setView(view)
-                .setTitle("Nueva asignatura")
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                .setTitle("Escoge un boton")
+                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -69,7 +69,7 @@ public class BotonesDialog  extends AppCompatDialogFragment {
                 })
                 ;
 
-
+        final int idAsignatura=SesionActual.usuarioActual.getAsignaturas().get(posicion).getId();
         opcion1=view.findViewById(R.id.opcion1);
         opcion2=view.findViewById(R.id.opcion2);
         opcion3=view.findViewById(R.id.opcion3);
@@ -81,34 +81,88 @@ public class BotonesDialog  extends AppCompatDialogFragment {
         opcion9=view.findViewById(R.id.opcion9);
 
 
+        opcion1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(1,idAsignatura);
+            }
+        });
+        opcion2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(2,idAsignatura);
+            }
+        });
+        opcion3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(3,idAsignatura);
+            }
+        });
+        opcion4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(4,idAsignatura);
+            }
+        });
+        opcion5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(5,idAsignatura);
+            }
+        });
+        opcion6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(6,idAsignatura);
+            }
+        });
+        opcion7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(7,idAsignatura);
+            }
+        });
+        opcion8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(8,idAsignatura);
+            }
+        });
+        opcion9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cambiar(9,idAsignatura);
+            }
+        });
+
+
+
 
         return builder.create();
     }
 
 
-    public void subir(String nombre,int creditos){
-        String url="http://agendapp.atwebpages.com/Asignaturas/subirAsignatura.php?asignaturaN="+nombre+"&usuarioN="+ SesionActual.usuarioActual.getUsuario()+"&creditos="+creditos;
+    public void cambiar(int cambio,int idAsignatura){
+        String url="http://agendapp.atwebpages.com/Asignaturas/cambiarIcono.php?imagen="+cambio+"&idAsignatura="+idAsignatura;
         url=url.replace(" ","%20");
 
-        final String nom=nombre;
-        final int cred=creditos;
+        final int camb=cambio;
         jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
-                int id;
+                boolean v;
                 try {
-                    JSONArray json = response.optJSONArray("id");
+                    JSONArray json = response.optJSONArray("cambio");
 
 
-                    id = json.getInt(0);
-                    Asignatura a=new Asignatura(nom,cred);
-                    a.setId(id);
-                    SesionActual.usuarioActual.addAsignatura(a);
+                    v = json.getBoolean(0);
+                    SesionActual.usuarioActual.getAsignaturas().get(posicion).setImagen(camb);
+
                     Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
 
-                    /*Asignatura a=SesionActual.usuarioActual.getAsignaturas().get(posicion);
-                    SesionActual.usuarioActual.setAsignatura(posicion,a);*/
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -116,7 +170,7 @@ public class BotonesDialog  extends AppCompatDialogFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"Error subiendo la asignatura a la base de datos, porfavor no agregar nada nuevo a la nueva asignatura"+error.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Error cambiando el icono a la asignatura"+error.toString(),Toast.LENGTH_SHORT).show();
             }
         });
         rq = Volley.newRequestQueue (context);

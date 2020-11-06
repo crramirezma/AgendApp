@@ -4,21 +4,24 @@ import java.util.ArrayList;
 
 public class Asignatura {
     int id;
-
+    int imagen;
 
     private ArrayList<Subtema> subtemas=new ArrayList<>();
     private String nombre;
     private int creditos;
     private double tiempoEstudio;
 
-    public Asignatura(String nombre, int creditos, double tiempoEstudio) {
-        this(nombre, creditos);
+
+    public Asignatura(String nombre, int creditos, double tiempoEstudio, int img) {
+        this(nombre, creditos,img);
         this.tiempoEstudio=tiempoEstudio;
+
     }
 
-    public Asignatura(String nombre,int creditos){
+    public Asignatura(String nombre,int creditos, int img){
         this.nombre=nombre;
         this.creditos=creditos;
+        this.imagen=img;
     }
 
 
@@ -62,5 +65,17 @@ public class Asignatura {
 
     public void setTiempoEstudio(double tiempoEstudio) {
         this.tiempoEstudio = tiempoEstudio;
+    }
+
+    public int getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(int imagen) {
+        this.imagen = imagen;
+    }
+
+    public ArrayList<Subtema> getSubtemas() {
+        return subtemas;
     }
 }

@@ -108,7 +108,7 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
 
 
                     id = json.getInt(0);
-                    Asignatura a=new Asignatura(nom,cred);
+                    Asignatura a=new Asignatura(nom,cred,1);
                     a.setId(id);
                     SesionActual.usuarioActual.addAsignatura(a);
                     Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();

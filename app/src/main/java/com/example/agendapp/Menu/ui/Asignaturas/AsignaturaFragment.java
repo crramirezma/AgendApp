@@ -64,6 +64,7 @@ public class AsignaturaFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(AsignaturaFragment.this.getContext()));
         AsignaturasAdapter adapter=new AsignaturasAdapter(getActivity());
         adapter.asignatura=getParentFragment();
+        adapter.manager=getParentFragmentManager();
         recycler.setAdapter(adapter);
         
     }

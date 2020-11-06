@@ -188,6 +188,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                 JSONArray json;
                 int id;
                 int creditos;
+                int imagen;
 
                 String nombreAsignatura;
 
@@ -209,7 +210,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                         nombreAsignatura=jsonObject.optString("nombre");
                         creditos=jsonObject.optInt("creditos");
                         tiempo=jsonObject.optDouble("double");
-                        asig=new Asignatura(nombreAsignatura,creditos,tiempo);
+                        imagen=jsonObject.optInt("imagen");
+                        asig=new Asignatura(nombreAsignatura,creditos,tiempo,imagen);
                         asig.setId(id);
                         
                         SesionActual.usuarioActual.addAsignatura(asig);
