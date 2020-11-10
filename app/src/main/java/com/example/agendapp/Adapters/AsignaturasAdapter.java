@@ -1,10 +1,9 @@
 package com.example.agendapp.Adapters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +15,31 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.agendapp.Clases.Subtema;
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.Botones.BotonesDialog;
 import com.example.agendapp.Menu.ui.Asignaturas.AsignaturaDialog;
-import com.example.agendapp.Menu.ui.Asignaturas.subCarpetas.SubTemaFragment;
+import com.example.agendapp.Menu.ui.Asignaturas.subCarpetas.SubtemaActivity;
 import com.example.agendapp.R;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.asignaturasHolder>{
     public Context context;
     public Fragment asignatura;
     public FragmentManager manager;
+
 
     public AsignaturasAdapter(Context context){
         this.context=context;
@@ -66,6 +75,10 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
 
     public class asignaturasHolder extends RecyclerView.ViewHolder{
+        //Variables para la consulta json
+        RequestQueue rq;
+        JsonRequest jrq;
+
         TextView asignaturaNombre;
         ImageButton btAsignatura;
         TextView NumeroTxt;
@@ -75,8 +88,8 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
         public asignaturasHolder(@NonNull View itemView,Context context) {
             super(itemView);
             this.context=context;
-            asignaturaNombre=itemView.findViewById(R.id.NombreAsignatura);
-            btAsignatura=itemView.findViewById(R.id.btAsignatura);
+            asignaturaNombre=itemView.findViewById(R.id.asignaturaTxt);
+            btAsignatura=itemView.findViewById(R.id.asignaturaBt);
             NumeroTxt=itemView.findViewById(R.id.NumeroTxt);
 
 
@@ -90,41 +103,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                 }
             });
 
-                //final int pos=Integer.parseInt(NumeroTxt.getText().toString());
-                /*btAsignatura.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(asignatura.getContext(),"",Toast.LENGTH_SHORT).show();
 
-                        final CharSequence[] opciones={"Eliminar asignatura","Modificar Asignatura","Cambiar Icono","Cancelar"};
-                        final AlertDialog.Builder builder=new AlertDialog.Builder(context2);
-
-
-
-                        builder.setTitle("Escoge una accion");
-                        builder.setItems(opciones, new DialogInterface.OnClickListener()  {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(opciones[which].equals("Cancelar")){
-                                    dialog.dismiss();
-                                }else if(opciones[which].equals("Descargar")){
-                                    Toast.makeText(context2,"Descargarndo... espere un momento",Toast.LENGTH_SHORT).show();
-
-
-
-                                }else if(opciones[which].equals("Eliminar")){
-                                    Toast.makeText(context2,"Eliminar",Toast.LENGTH_SHORT).show();
-                                }else if(opciones[which].equals("Cambiar Icono")){
-                                    BotonesDialog botonesDialog=new BotonesDialog(pos,context2);
-                                    botonesDialog.show(asignatura.getParentFragmentManager(),"Nuevo Dialogo");
-                                }
-                            }
-
-                        });
-                        builder.show();
-
-                    }
-                });*/
 
 
         }
@@ -152,7 +131,14 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
 
         public void mostrarOpciones(String posicion){
-            final CharSequence[] opciones={"Eliminar asignatura","Modificar Asignatura","Cambiar Icono","Cancelar"};
+            final String subtemas="Lista de Subtemas";
+            final String eliminar="Eliminar Asignatura";
+            String modificar="Modificar Asignatura";
+            final String icono="Cambiar Icono";
+            final String cancel="Cancelar";
+
+
+            final CharSequence[] opciones={subtemas,eliminar,modificar,icono,cancel};
             final AlertDialog.Builder builder=new AlertDialog.Builder(context);
             final int pos=Integer.parseInt(posicion);
 
@@ -161,18 +147,21 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
             builder.setItems(opciones, new DialogInterface.OnClickListener()  {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(opciones[which].equals("Cancelar")){
+                    if(opciones[which].equals(cancel)){
                         dialog.dismiss();
-                    }else if(opciones[which].equals("Descargar")){
-                        Toast.makeText(context,"Descargarndo... espere un momento",Toast.LENGTH_SHORT).show();
-
-
-
-                    }else if(opciones[which].equals("Eliminar")){
+                    }else if(opciones[which].equals(eliminar)){
                         Toast.makeText(context,"Eliminar",Toast.LENGTH_SHORT).show();
-                    }else if(opciones[which].equals("Cambiar Icono")){
+                    }else if(opciones[which].equals(icono)){
                         BotonesDialog botonesDialog=new BotonesDialog(pos,context);
                         botonesDialog.show(manager,"Escoge un nuevo icono");
+                    }else if(opciones[which].equals(subtemas)){
+
+                        SesionActual.asignatura= SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
+                        llenarSubtemas();
+
+
+
+
                     }
                 }
 
@@ -214,6 +203,83 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                     btAsignatura.setImageResource(R.drawable.opcion_1);
 
             }
+
+        }
+
+        public void llenarSubtemas(){
+            //aqui se hara la consulta a la base de datos de los subtemas de la asignatura
+
+            String url="http://agendapp.atwebpages.com/Asignaturas/listarSubtemas.php?idA="+SesionActual.asignatura.getId();
+
+            url=url.replace(" ","%20");
+            jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    Subtema subtema;
+
+
+                    JSONArray json;
+                    int id;
+
+
+                    String nombreSubtema;
+
+                    double tiempo;
+
+                    JSONObject jsonObject;
+
+
+                    json=response.optJSONArray("subtemas");
+
+                    try {
+                        for(int i=0;i<json.length();i++){
+
+
+
+
+                            jsonObject=json.getJSONObject(i);
+                            id=jsonObject.optInt("id");
+
+                            nombreSubtema=jsonObject.optString("nombre");
+
+                            subtema=new Subtema(nombreSubtema);
+                            subtema.setId(id);
+
+                            SesionActual.asignatura.addSubtema(subtema);
+
+
+                        }
+
+
+
+
+                        //Zona de Intents y nuevas vistas
+                        /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
+                        Toast.makeText(context,SesionActual.asignatura.getId()+"",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(context, SubtemaActivity.class);
+                        context.startActivity(intent);
+
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(context,e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText ( context,"No tienes subtemas programadas",Toast.LENGTH_SHORT).show ();
+                    Intent intent=new Intent(context, SubtemaActivity.class);
+                    context.startActivity(intent);
+
+                }
+            });
+            rq = Volley.newRequestQueue (context);
+            rq.add(jrq);
+
 
         }
     }

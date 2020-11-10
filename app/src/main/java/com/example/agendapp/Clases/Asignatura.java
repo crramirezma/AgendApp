@@ -32,7 +32,7 @@ public class Asignatura {
     public void setId(int id) {
         this.id = id;
     }
-    public ArrayList<Subtema> getsubtemas() {
+    public ArrayList<Subtema> getSubtemas() {
         return subtemas;
     }
     public void setSubtemas(ArrayList<Subtema> subtemas) {
@@ -75,7 +75,5 @@ public class Asignatura {
         this.imagen = imagen;
     }
 
-    public ArrayList<Subtema> getSubtemas() {
-        return subtemas;
-    }
+
 }

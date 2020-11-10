@@ -5,21 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.agendapp.Adapters.AsignaturasAdapter;
-import com.example.agendapp.Clases.Asignatura;
-import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.R;
 
 
@@ -65,6 +58,8 @@ public class AsignaturaFragment extends Fragment {
         AsignaturasAdapter adapter=new AsignaturasAdapter(getActivity());
         adapter.asignatura=getParentFragment();
         adapter.manager=getParentFragmentManager();
+
+
         recycler.setAdapter(adapter);
         
     }
