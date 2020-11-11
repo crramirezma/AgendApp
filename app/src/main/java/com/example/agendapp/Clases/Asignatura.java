@@ -11,6 +11,7 @@ public class Asignatura {
     private int creditos;
     private double tiempoEstudio;
 
+    private boolean bloqueado;
 
     public Asignatura(String nombre, int creditos, double tiempoEstudio, int img) {
         this(nombre, creditos,img);
@@ -24,6 +25,13 @@ public class Asignatura {
         this.imagen=img;
     }
 
+    public boolean isBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
 
     public int getId() {
         return id;

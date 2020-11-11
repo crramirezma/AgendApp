@@ -190,6 +190,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                 int creditos;
                 int imagen;
 
+                boolean bloq=false;
+
                 String nombreAsignatura;
 
                 double tiempo;
@@ -211,9 +213,18 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                         creditos=jsonObject.optInt("creditos");
                         tiempo=jsonObject.optDouble("double");
                         imagen=jsonObject.optInt("imagen");
+
+                        if(jsonObject.optInt("bloqueado")==1){
+                            bloq=true;
+                        }else{
+                            bloq=false;
+                        }
+
+
                         asig=new Asignatura(nombreAsignatura,creditos,tiempo,imagen);
                         asig.setId(id);
-                        
+                        asig.setBloqueado(bloq);
+
                         SesionActual.usuarioActual.addAsignatura(asig);
 
                     }
