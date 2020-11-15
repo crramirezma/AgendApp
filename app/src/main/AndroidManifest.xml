@@ -19,8 +19,13 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Tablero.ListaTableros"
-            android:label="@string/title_activity_lista_tableros"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_lista_tableros">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Menu.ui.Asignaturas.subCarpetas.SubtemaActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
@@ -30,21 +35,12 @@
             android:name=".Menu.MenuActivity"
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".UserActivity" />
         <activity android:name=".Registro.Register" />
         <activity android:name=".Login.Login" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

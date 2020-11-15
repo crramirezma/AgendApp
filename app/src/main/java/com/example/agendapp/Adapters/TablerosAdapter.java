@@ -27,7 +27,7 @@ public class TablerosAdapter extends RecyclerView.Adapter<TablerosAdapter.Tabler
     @NonNull
     @Override
     public Tablerosholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tableroitem, parent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tableroitem, parent, false);
 
         return new Tablerosholder(view);
     }
