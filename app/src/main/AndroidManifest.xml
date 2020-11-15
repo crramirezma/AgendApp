@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Menu.ui.Asignaturas.subCarpetas.SubtemaActivity"></activity>
+        <activity
+            android:name=".Tablero.ListaTableros"
+            android:label="@string/title_activity_lista_tableros"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Menu.ui.Asignaturas.subCarpetas.SubtemaActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.

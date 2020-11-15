@@ -15,9 +15,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.tableroitem);
 
-
+        /*
         if(SesionActual.usuarioActual==null){
             Intent Registro = new Intent ( this, Login.class );
             MainActivity.this.startActivity(Registro);
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(),"hola mundo :"+SesionActual.usuarioActual.getCiudad(),Toast.LENGTH_LONG).show();
         }
-
+*/
 
     }
 }

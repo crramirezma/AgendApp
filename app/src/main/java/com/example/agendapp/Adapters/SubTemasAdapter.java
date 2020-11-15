@@ -44,7 +44,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
 
         //Buttons
         ImageButton subtemaBt;
-
+        //
 
         Context context;
 
