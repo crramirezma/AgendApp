@@ -12,9 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.agendapp.Login.SesionActual;
+import com.example.agendapp.Menu.Botones.BotonesDialog;
 import com.example.agendapp.R;
 
 
@@ -25,6 +27,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
 
     Context context;
     Activity activity;
+    public FragmentManager manager;
 
     //TextView
     TextView id;
@@ -66,42 +69,90 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                 }
             });
         }
+        private void mostrarOpciones(){
 
-    }
+            AlertDialog.Builder builder=new AlertDialog.Builder(activity);
+            final String eliminar="Eliminar";
+            final String desplegar="Desplegar tablero";
+            final String cancelar="Cancelar";
+            final String cambiarI="Cambiar Icono";
+            final CharSequence[] opciones={desplegar,cambiarI,eliminar,cancelar};
 
-    private void mostrarOpciones(){
-        final CharSequence[] opciones={"Eliminar","Desplegar tablero","Cancelar"};
-        final AlertDialog.Builder builder=new AlertDialog.Builder(activity);
+            builder.setTitle("Escoge una accion");
+            builder.setItems(opciones, new DialogInterface.OnClickListener()  {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(opciones[which].equals(cancelar)){
+                        dialog.dismiss();
+                    }else if(opciones[which].equals(desplegar)){
+                        Toast.makeText(context,"Descargarndo... espere un momento",Toast.LENGTH_SHORT).show();
 
-
-
-        builder.setTitle("Escoge una accion");
-        builder.setItems(opciones, new DialogInterface.OnClickListener()  {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(opciones[which].equals("Cancelar")){
-                    dialog.dismiss();
-                }else if(opciones[which].equals("Desplegar tablero")){
-                    Toast.makeText(context,"Descargarndo... espere un momento",Toast.LENGTH_SHORT).show();
-
-                    /**Zona para desplegar el tablero
-                     *
-                     */
-
-
+                        /**Zona para desplegar el tablero
+                         *
+                         */
 
 
-                }else if(opciones[which].equals("Eliminar")) {
-                    Toast.makeText(context, "Eliminar", Toast.LENGTH_SHORT).show();
-                }else{
-                    dialog.dismiss();
+
+
+                    }else if(opciones[which].equals(eliminar)) {
+                        Toast.makeText(context, "Eliminar", Toast.LENGTH_SHORT).show();
+                    }else if(opciones[which].equals(cambiarI)){
+                        try{
+                            int pos=Integer.parseInt(Numero.getText().toString());
+                            BotonesDialog botonesDialog=new BotonesDialog(pos,context,false);
+                            botonesDialog.show(manager,"Escoge un nuevo icono");
+                        }catch (Exception e){
+                            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else{
+                        dialog.dismiss();
+                    }
                 }
+
+            });
+
+            builder.show();
+        }
+
+        public void asignarIcono(int i){
+            switch (i){
+                case 1:
+                    subtemaBt.setImageResource(R.drawable.opcion_1);
+                    break;
+                case 2:
+                    subtemaBt.setImageResource(R.drawable.opcion_2);
+                    break;
+                case 3:
+                    subtemaBt.setImageResource(R.drawable.opcion_3);
+                    break;
+                case 4:
+                    subtemaBt.setImageResource(R.drawable.opcion_4);
+                    break;
+                case 5:
+                    subtemaBt.setImageResource(R.drawable.opcion_5);
+                    break;
+                case 6:
+                    subtemaBt.setImageResource(R.drawable.opcion_6);
+                    break;
+                case 7:
+                    subtemaBt.setImageResource(R.drawable.opcion_7);
+                    break;
+                case 8:
+                    subtemaBt.setImageResource(R.drawable.opcion_8);
+                    break;
+                case 9:
+                    subtemaBt.setImageResource(R.drawable.opcion_9);
+                    break;
+                default:
+                    subtemaBt.setImageResource(R.drawable.opcion_1);
+
             }
+        }
 
-        });
-
-        builder.show();
     }
+
+
 
     @NonNull
     @Override
@@ -119,7 +170,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
             holder.nombreSubtema.setText( SesionActual.asignatura.getSubtemas().get(position).getNombreSubtema());
             holder.Numero.setText(position+"");
             holder.subtemaBt.setImageResource(R.drawable.opcion_1);
-
+            holder.asignarIcono(SesionActual.asignatura.getSubtemas().get(position).getIcono());
 
 
 

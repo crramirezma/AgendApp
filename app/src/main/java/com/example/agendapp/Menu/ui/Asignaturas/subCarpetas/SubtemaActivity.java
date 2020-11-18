@@ -44,6 +44,7 @@ public class SubtemaActivity extends AppCompatActivity {
 
         //corregir lo de la posición
         SubTemasAdapter subTemasAdapter=new SubTemasAdapter(getApplicationContext(),this);
+        subTemasAdapter.manager=getSupportFragmentManager();
         Toast.makeText(getApplicationContext(),SesionActual.asignatura.getSubtemas().size()+"",Toast.LENGTH_SHORT).show();
 
         recycler=findViewById(R.id.subtemaRecycler);

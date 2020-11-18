@@ -35,7 +35,7 @@ public class BotonesDialog  extends AppCompatDialogFragment {
 
     Context context;
     int posicion;
-
+    boolean decision;
 
     ImageButton opcion1;
     ImageButton opcion2;
@@ -48,10 +48,18 @@ public class BotonesDialog  extends AppCompatDialogFragment {
     ImageButton opcion9;
 
 
-
-    public BotonesDialog(int posicion,Context con){
+    /**
+     *
+     * @param posicion: posición dentro del arrayList que contiene al subtema o asignatura
+     * @param con: contexto, necesario para el paso de mensaje y otras cosas
+     * @param des: Servira para definir si es cambio de boton para subtemas o para asignaturas
+     *           true: asignaturas
+     *           false: subtemas
+     */
+    public BotonesDialog(int posicion,Context con,boolean des){
         this.posicion=posicion;
         context=con;
+        this.decision=des;
     }
 
     @Override
@@ -69,7 +77,7 @@ public class BotonesDialog  extends AppCompatDialogFragment {
                 })
                 ;
 
-        final int idAsignatura=SesionActual.usuarioActual.getAsignaturas().get(posicion).getId();
+
         opcion1=view.findViewById(R.id.opcion1);
         opcion2=view.findViewById(R.id.opcion2);
         opcion3=view.findViewById(R.id.opcion3);
@@ -80,7 +88,13 @@ public class BotonesDialog  extends AppCompatDialogFragment {
         opcion8=view.findViewById(R.id.opcion8);
         opcion9=view.findViewById(R.id.opcion9);
 
-
+        int id;
+        if(decision){
+            id=SesionActual.usuarioActual.getAsignaturas().get(posicion).getId();
+        }else{
+            id=SesionActual.asignatura.getSubtemas().get(posicion).getId();
+        }
+        final int idAsignatura=id;
         opcion1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +158,13 @@ public class BotonesDialog  extends AppCompatDialogFragment {
 
 
     public void cambiar(int cambio,int idAsignatura){
+        if(decision)
+            cambiarA(cambio,idAsignatura);
+        else
+            cambiarS(cambio,idAsignatura);
+
+    }
+    public void cambiarA(int cambio,int idAsignatura){
         String url="http://agendapp.atwebpages.com/Asignaturas/cambiarIcono.php?imagen="+cambio+"&idAsignatura="+idAsignatura;
         url=url.replace(" ","%20");
 
@@ -171,6 +192,42 @@ public class BotonesDialog  extends AppCompatDialogFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context,"Error cambiando el icono a la asignatura"+error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        rq = Volley.newRequestQueue (context);
+        rq.add(jrq);
+    }
+
+    public void cambiarS(int cambio,int idSubtema){
+
+        String url="http://agendapp.atwebpages.com/Asignaturas/Subtemas/cambiarIconoS.php?imagen="+cambio+"&idSubtema="+idSubtema;
+        url=url.replace(" ","%20");
+
+        final int camb=cambio;
+        jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                boolean v;
+                try {
+                    JSONArray json = response.optJSONArray("cambio");
+
+
+                    v = json.getBoolean(0);
+                    SesionActual.asignatura.getSubtemas().get(posicion).setIcono(camb);
+                    
+
+                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Subtemas para observar los cambios",Toast.LENGTH_SHORT).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Error cambiando el icono al subtema\n"+error.toString(),Toast.LENGTH_SHORT).show();
             }
         });
         rq = Volley.newRequestQueue (context);

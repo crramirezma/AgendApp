@@ -184,7 +184,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
 
                     }else if(opciones[which].equals(icono)){
-                        BotonesDialog botonesDialog=new BotonesDialog(pos,context);
+                        BotonesDialog botonesDialog=new BotonesDialog(pos,context,true);
                         botonesDialog.show(manager,"Escoge un nuevo icono");
                     }else if(opciones[which].equals(subtemas)){
 
@@ -288,7 +288,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
                     JSONArray json;
                     int id;
-
+                    int icono;
 
                     String nombreSubtema;
 
@@ -307,12 +307,13 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
                             jsonObject=json.getJSONObject(i);
                             id=jsonObject.optInt("id");
+                            icono=jsonObject.optInt("icono");
 
                             nombreSubtema=jsonObject.optString("nombre");
 
                             subtema=new Subtema(nombreSubtema);
                             subtema.setId(id);
-
+                            subtema.setIcono(icono);
                             SesionActual.asignatura.addSubtema(subtema);
 
 

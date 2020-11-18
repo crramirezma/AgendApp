@@ -4,8 +4,19 @@ public class Subtema {
     private Asignatura asignaturaSubtema;
     private String nombreSubtema;
     private int id;
+    private int icono;
 
+    public Asignatura getAsignaturaSubtema() {
+        return asignaturaSubtema;
+    }
 
+    public int getIcono() {
+        return icono;
+    }
+
+    public void setIcono(int icono) {
+        this.icono = icono;
+    }
 
     public int getId() {
         return id;
