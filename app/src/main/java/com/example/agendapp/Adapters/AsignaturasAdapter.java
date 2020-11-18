@@ -146,10 +146,6 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
             final String desbloquear="Desbloquear";
             final CharSequence[] opcion;
 
-
-
-
-
             final int pos=Integer.parseInt(posicion);
 
 
@@ -181,8 +177,8 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                     }else if(opciones[which].equals(eliminar)){
                         Asignatura asignatura=SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
                         String nombre=asignatura.getNombre();
-                        int id=asignatura.getId();
-                        crearMensaje(nombre,id);
+
+                        crearMensaje(nombre,pos);
 
 
 
@@ -193,8 +189,12 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                     }else if(opciones[which].equals(subtemas)){
 
                         SesionActual.asignatura= SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
-                        llenarSubtemas();
-
+                        if(SesionActual.asignatura.getSubtemas().size()==0)
+                            llenarSubtemas();
+                        else{
+                            Intent intent=new Intent(context, SubtemaActivity.class);
+                            context.startActivity(intent);
+                        }
 
 
 
@@ -215,7 +215,13 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
             builder.show();
         }
 
-
+        /**
+         * asignarIcono
+         * Función encargada de poner la imagen correspondiente a la opcion del icono
+         *
+         * asignarFondo
+         * función que cambia el fondo de un boton dependiendo de si la asignatura esta bloqueada o no
+         */
         public  void asignarIcono(int i){
             switch (i){
                 case 1:
@@ -261,6 +267,12 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
             btAsignatura.setScaleType(ImageButton.ScaleType.FIT_XY);
         };
 
+
+        /**
+         * LlenarSubtemas
+         * Esta función se encarga de consultar en la base de datos la lista de subtemas asociados a una asignatura,
+         * y luego procede a llamar el activity de subtemas
+         */
         public void llenarSubtemas(){
             //aqui se hara la consulta a la base de datos de los subtemas de la asignatura
 
@@ -338,8 +350,20 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
         }
 
-        public  void crearMensaje(String asignatura,int ida){
+
+        /**
+         * Zona de Eliminado de asignaturas
+         *
+         * crearMensaje
+         * @param asignatura: nombre de la asignatura a eliminar,se usa para dar un mensaje con el nombre de la asignatura
+         * @param pos: entero que representa la posición de la asignatura dentro del arraylist, se usa para poder haller el dato
+         *
+         * la función se usa para desplegar un mensaje de advertencia antes de proseguir con el eliminado de la asignatura
+         *
+         */
+        public  void crearMensaje(String asignatura,int pos){
             AlertDialog.Builder alerta=new AlertDialog.Builder(context);
+            final int posicion=pos;
             alerta
                     .setMessage("Esta seguro de eliminar la asignatura '"+asignatura+"' definitivamente, tenga en cuenta que seran borrados todos los subtemas asociados a la asignatura.")
                     .setTitle("Eliminando asignatura")
@@ -347,6 +371,8 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //programar eliminación de la asignatura
+
+                            eliminarAsignatura(posicion);
                         }
                     })
                     .setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -356,6 +382,41 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                         }
                     });
             alerta.show();
+        }
+        public void eliminarAsignatura(int pos){
+            int id=SesionActual.usuarioActual.getAsignaturas().get(pos).getId();
+            String url="http://agendapp.atwebpages.com/Asignaturas/eliminarAsignatura.php?idA="+id;
+            final int posicion=pos;
+
+            jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    boolean v;
+                    try {
+                        JSONArray json = response.optJSONArray("cambio");
+
+
+                        v = json.getBoolean(0);
+                        if(v)
+                            SesionActual.usuarioActual.getAsignaturas().remove(posicion);
+
+                        Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context,"Error cambiando el icono a la asignatura"+error.toString(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            rq = Volley.newRequestQueue (context);
+            rq.add(jrq);
+
         }
         public void bloquea(int v, int id,int posicion){
             String url="http://agendapp.atwebpages.com/Asignaturas/bloquearAsignautra.php?bloq="+v+"&idA="+id;

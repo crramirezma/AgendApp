@@ -2,6 +2,8 @@ package com.example.agendapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.agendapp.Clases.Usuario;
+import com.example.agendapp.Login.Login;
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.MenuActivity;
 
@@ -39,6 +42,7 @@ public class UserActivity extends AppCompatActivity {
     TextView edad;
 
     Button modBt;
+    Button eliminarUsuarioBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class UserActivity extends AppCompatActivity {
         edad=findViewById(R.id.edadTxt);
 
         modBt=findViewById(R.id.modBt);
+        eliminarUsuarioBt=findViewById(R.id.eliminarUsuarioBt);
 
         //asignando los correspondientes textos a cada edittext, primero comprobar que si halla datos en el usuario
         if(usuario.getNombre()==null){
@@ -148,6 +153,13 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+        eliminarUsuarioBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mensajeAlarma();
+            }
+        });
+
     }
 
     public void returnOnClick(View view) {
@@ -207,6 +219,83 @@ public class UserActivity extends AppCompatActivity {
                         UserActivity.this.finish();
                     }else{
                         Toast.makeText(getApplicationContext(),"No se pudo modificar", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Error modificándo los datos, porfavor intentalo mas tarde",Toast.LENGTH_SHORT).show();
+            }
+        });
+        rq = Volley.newRequestQueue (getApplicationContext ());
+        rq.add(jrq);
+    }
+
+
+    /**
+     * Zona de eliminado de usuario
+     *
+     * mensajeAlarma
+     * Función que despliega un mensaje de confirmación con el que el usuario puede eliminar su cuenta
+     *
+     * eliminaUsuario
+     * función que ejecuta la consulta para el correspondiente eliminado
+     */
+
+    public void mensajeAlarma(){
+        AlertDialog.Builder alerta=new AlertDialog.Builder(this);
+
+        alerta
+                .setMessage("Esta seguro de eliminar tu cuenta de usuario?, ten en cuenta que seran eliminadas las asignaturas y subtemas asociados a tu cuenta")
+                .setTitle("Eliminando asignatura")
+
+                .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //programar eliminación de la asignatura
+
+                        eliminarUsuario();
+                    }
+                });
+
+        alerta.show();
+    }
+
+    public void eliminarUsuario(){
+        String url="http://agendapp.atwebpages.com/Asignaturas/eliminarUsuario.php?nombre="+SesionActual.usuarioActual.getUsuario();
+        url=url.replace(" ","%20");
+        Toast.makeText(getApplicationContext(),url,Toast.LENGTH_SHORT ).show();
+
+        jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                boolean v;
+                try {
+                    JSONArray json=response.optJSONArray("eliminado");
+                    v=json.getBoolean(0);
+
+                    if(v){
+                        Toast.makeText(getApplicationContext(),"Se ha eliminado el usuario con exito",Toast.LENGTH_SHORT ).show();
+
+
+                        Intent intent =new Intent(UserActivity.this, Login.class);
+                        UserActivity.this.startActivity(intent);
+                        UserActivity.this.finish();
+
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"No se pudo eliminar", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

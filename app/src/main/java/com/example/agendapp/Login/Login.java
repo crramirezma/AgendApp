@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
     TextView usuarioLmsg;
     TextView contraseñaLmsg;
 
+    Button iniciarBt;
 
     String usuario;
     int cont=0;
@@ -60,6 +62,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
 
         usuarioLmsg=findViewById(R.id.usuarioLmsg);
         contraseñaLmsg=findViewById(R.id.contraseñaLmsg);
+
+        iniciarBt=findViewById(R.id.iniciarBt);
     }
 
 
@@ -68,6 +72,8 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
      * las siguiente funciones seran los listeners de los botones y demas objetos declarados en el xml correspondiente
      */
     public void IniciarOnClick(View view) {
+        iniciarBt.setClickable(false);
+
         //validando datos
         boolean validado=true;
         usuarioLmsg.setText("");
@@ -96,6 +102,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
             IniciarSesión(usuario, cont);
         }else{
             Toast.makeText(getApplicationContext(),"No se pudo realizar el inicio de sesión, vuelve a intentarlo",Toast.LENGTH_SHORT).show();
+            iniciarBt.setClickable(true);
         }
     }
 
@@ -163,7 +170,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
                 llenarAsignaturas();
 
             }else{
-
+                iniciarBt.setClickable(true);
                 Toast.makeText(getApplicationContext(),"Usuario o contraseña no validos", Toast.LENGTH_SHORT).show();
             }
 

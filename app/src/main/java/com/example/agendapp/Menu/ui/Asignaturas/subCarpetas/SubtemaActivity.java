@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.agendapp.Adapters.SubTemasAdapter;
 import com.example.agendapp.Login.SesionActual;
+import com.example.agendapp.Menu.ui.Asignaturas.AsignaturaDialog;
 import com.example.agendapp.R;
 
 
@@ -63,10 +64,23 @@ public class SubtemaActivity extends AppCompatActivity {
         nuevoSubBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(SesionActual.asignatura.getSubtemas().size()==5){
+                    Toast.makeText(getApplicationContext(),"No se puede crear el subtema, ya se supero el limite de subtemas",Toast.LENGTH_LONG).show();
+                }else{
+                    crearSubtema();
+                }
             }
         });
     }
 
+    /**
+     * crearSubtema
+     * La funcion se encarga de realizar la consulta en la base de datos con respecto a la creación de un nuevo subtema, llama a las funciones....
+     *
+     */
+    public void crearSubtema(){
+        SubtemaDialog subtemaDialog=new SubtemaDialog(this);
+        subtemaDialog.show(getSupportFragmentManager(),"Nuevo Dialogo");
+    }
 
 }
