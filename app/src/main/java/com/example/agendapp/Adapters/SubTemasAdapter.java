@@ -106,6 +106,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                         }
 
                     }else{
+                        Toast.makeText(context,"Error con la contraseña, intentelo de nuevo",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 }

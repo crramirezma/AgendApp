@@ -2,6 +2,7 @@ package com.example.agendapp.Menu.ui.Asignaturas;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -72,6 +73,11 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
                         boolean v=true;
                         try{
                             cred=Integer.parseInt(creditos.getText().toString());
+                            if(nom.equals(""))
+                                throw new IndexOutOfBoundsException();
+                        }catch (IndexOutOfBoundsException e){
+                            Toast.makeText(context,"Error en el valor del nombre",Toast.LENGTH_SHORT).show();
+                            v=false;
                         }catch(Exception e){
                             Toast.makeText(context,"Error en el valor de los creditos",Toast.LENGTH_SHORT).show();
                             v=false;

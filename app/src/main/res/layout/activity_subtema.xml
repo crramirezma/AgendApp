@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".UserActivity">
 
+    <TextView
+        android:id="@+id/asignaturaTxt"
+        android:layout_width="177dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="59dp"
+        android:autoSizeTextType="uniform"
+        android:autoText="false"
+        android:isScrollContainer="true"
+        android:scrollbars="horizontal"
+        android:scrollHorizontally="true"
+        android:textAlignment="center"
+        android:textSize="28dp"
+        app:layout_constraintEnd_toStartOf="@+id/nuevoSubtemaBt"
+        app:layout_constraintStart_toEndOf="@+id/returnBt"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
 
         android:id="@+id/returnBt"
@@ -57,22 +75,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/asignaturaTxt"
-        android:layout_width="177dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="58dp"
-        android:autoText="false"
-        android:scrollbars="horizontal"
-        android:scrollHorizontally="true"
-        android:textAlignment="center"
-        android:textSize="28dp"
-        app:layout_constraintEnd_toStartOf="@+id/NuevaAsignaturaBt"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toEndOf="@+id/returnBt"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

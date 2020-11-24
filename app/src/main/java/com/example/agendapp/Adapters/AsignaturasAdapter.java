@@ -30,7 +30,9 @@ import com.example.agendapp.Clases.Asignatura;
 import com.example.agendapp.Clases.Subtema;
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.Botones.BotonesDialog;
+import com.example.agendapp.Menu.Permisos.permisosDialog;
 import com.example.agendapp.Menu.ui.Asignaturas.AsignaturaDialog;
+import com.example.agendapp.Menu.ui.Asignaturas.configAsignatura;
 import com.example.agendapp.Menu.ui.Asignaturas.subCarpetas.SubtemaActivity;
 import com.example.agendapp.R;
 
@@ -38,11 +40,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.asignaturasHolder>{
+public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.asignaturasHolder> {
     public Context context;
     public Fragment asignatura;
     public FragmentManager manager;
 
+    public boolean bloquear=false;
 
     public AsignaturasAdapter(Context context){
         this.context=context;
@@ -73,7 +76,6 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
     public int getItemCount() {
         return SesionActual.usuarioActual.getAsignaturas().size();
     }
-
 
 
 
@@ -175,14 +177,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                     if(opciones[which].equals(cancel)){
                         dialog.dismiss();
                     }else if(opciones[which].equals(eliminar)){
-                        Asignatura asignatura=SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
-                        String nombre=asignatura.getNombre();
-
-                        crearMensaje(nombre,pos);
-
-
-
-
+                        permiso(11,pos);
                     }else if(opciones[which].equals(icono)){
                         BotonesDialog botonesDialog=new BotonesDialog(pos,context,true);
                         botonesDialog.show(manager,"Escoge un nuevo icono");
@@ -190,7 +185,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
                         SesionActual.asignatura= SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
                         if(SesionActual.asignatura.getSubtemas().size()==0)
-                            llenarSubtemas();
+                            llenarSubtemas(1);
                         else{
                             Intent intent=new Intent(context, SubtemaActivity.class);
                             context.startActivity(intent);
@@ -199,15 +194,22 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
 
                     }else if(opciones[which].equals(bloquear)){
-                        Asignatura asignatura=SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
-                        String nombre=asignatura.getNombre();
-                        int id=asignatura.getId();
-                        bloquea(1,id,pos);
+                        permiso(12,pos);
+
+
                     }else if(opciones[which].equals(desbloquear)){
-                        Asignatura asignatura=SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
-                        String nombre=asignatura.getNombre();
-                        int id=asignatura.getId();
-                        bloquea(0,id,pos);
+
+                        permiso(13,pos);
+                    }else if(opciones[which].equals(modificar)){
+
+                        SesionActual.asignatura= SesionActual.usuarioActual.getAsignaturas().get(Integer.parseInt(NumeroTxt.getText().toString()));
+                        if(SesionActual.asignatura.getSubtemas().size()==0) {
+
+                            llenarSubtemas(2);
+                        }else{
+                            Intent intent=new Intent(context, configAsignatura.class);
+                            context.startActivity(intent);
+                        }
                     }
                 }
 
@@ -273,11 +275,11 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
          * Esta función se encarga de consultar en la base de datos la lista de subtemas asociados a una asignatura,
          * y luego procede a llamar el activity de subtemas
          */
-        public void llenarSubtemas(){
+        public void llenarSubtemas(int decision){
             //aqui se hara la consulta a la base de datos de los subtemas de la asignatura
 
             String url="http://agendapp.atwebpages.com/Asignaturas/listarSubtemas.php?idA="+SesionActual.asignatura.getId();
-
+            final int decisionn=decision;
             url=url.replace(" ","%20");
             jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
@@ -324,9 +326,18 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
                         //Zona de Intents y nuevas vistas
                         /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
-                        Toast.makeText(context,SesionActual.asignatura.getId()+"",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(context, SubtemaActivity.class);
-                        context.startActivity(intent);
+                        Intent intent;
+                        if(decisionn==1){
+                            intent=new Intent(context, SubtemaActivity.class);
+                            context.startActivity(intent);
+                        }else if(decisionn==2){
+                            int pos=Integer.parseInt(NumeroTxt.getText().toString());
+                            configAsignatura.posicion=pos;
+                            intent=new Intent(context, configAsignatura.class);
+                            context.startActivity(intent);
+                        }
+
+
 
 
 
@@ -340,8 +351,15 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                 public void onErrorResponse(VolleyError error) {
 
                     Toast.makeText ( context,"No tienes subtemas programadas",Toast.LENGTH_SHORT).show ();
-                    Intent intent=new Intent(context, SubtemaActivity.class);
-                    context.startActivity(intent);
+                    Intent intent;
+                    if(decisionn==1){
+                        intent=new Intent(context, SubtemaActivity.class);
+                        context.startActivity(intent);
+                    }else if(decisionn==2){
+
+                        intent=new Intent(context, configAsignatura.class);
+                        context.startActivity(intent);
+                    }
 
                 }
             });
@@ -350,108 +368,35 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
 
         }
+
+
+
+
 
 
         /**
-         * Zona de Eliminado de asignaturas
          *
-         * crearMensaje
-         * @param asignatura: nombre de la asignatura a eliminar,se usa para dar un mensaje con el nombre de la asignatura
-         * @param pos: entero que representa la posición de la asignatura dentro del arraylist, se usa para poder haller el dato
+         * @param decision: el primer numero representa al adapter
+                 *                1:asignaturas
+                 *                2:subtemas
+         *                  el segundo numero representa la opcion
+         *                        1:eliminar
+         *                        2:bloquear
+         *                        3:desbloquear
+         * @param pos: posicion dentro del arraylist que contenga el objeto
          *
-         * la función se usa para desplegar un mensaje de advertencia antes de proseguir con el eliminado de la asignatura
-         *
+         * @return
          */
-        public  void crearMensaje(String asignatura,int pos){
-            AlertDialog.Builder alerta=new AlertDialog.Builder(context);
-            final int posicion=pos;
-            alerta
-                    .setMessage("Esta seguro de eliminar la asignatura '"+asignatura+"' definitivamente, tenga en cuenta que seran borrados todos los subtemas asociados a la asignatura.")
-                    .setTitle("Eliminando asignatura")
-                    .setPositiveButton("si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //programar eliminación de la asignatura
-
-                            eliminarAsignatura(posicion);
-                        }
-                    })
-                    .setNegativeButton("no", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-            alerta.show();
+        public void permiso(int decision,int pos){
+            permisosDialog permisosDialog=new permisosDialog(decision,pos,context);
+            permisosDialog.show(manager,"Permisos");
         }
-        public void eliminarAsignatura(int pos){
-            int id=SesionActual.usuarioActual.getAsignaturas().get(pos).getId();
-            String url="http://agendapp.atwebpages.com/Asignaturas/eliminarAsignatura.php?idA="+id;
-            final int posicion=pos;
-
-            jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-
-                    boolean v;
-                    try {
-                        JSONArray json = response.optJSONArray("cambio");
 
 
-                        v = json.getBoolean(0);
-                        if(v)
-                            SesionActual.usuarioActual.getAsignaturas().remove(posicion);
-
-                        Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context,"Error cambiando el icono a la asignatura"+error.toString(),Toast.LENGTH_SHORT).show();
-                }
-            });
-            rq = Volley.newRequestQueue (context);
-            rq.add(jrq);
-
-        }
-        public void bloquea(int v, int id,int posicion){
-            String url="http://agendapp.atwebpages.com/Asignaturas/bloquearAsignautra.php?bloq="+v+"&idA="+id;
-            url=url.replace(" ","%20");
-
-            final int pos=posicion;
-            final boolean camb=v==1;
-            jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-
-                    boolean v;
-                    try {
-                        JSONArray json = response.optJSONArray("cambio");
-
-
-                        v = json.getBoolean(0);
-                        SesionActual.usuarioActual.getAsignaturas().get(pos).setBloqueado(camb);
-
-                        Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context,"Error cambiando el icono a la asignatura"+error.toString(),Toast.LENGTH_SHORT).show();
-                }
-            });
-            rq = Volley.newRequestQueue (context);
-            rq.add(jrq);
-        }
     }
+
+
+
+
+
 }

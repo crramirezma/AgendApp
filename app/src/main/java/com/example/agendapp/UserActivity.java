@@ -106,7 +106,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!nombre.getText().equals(SesionActual.usuarioActual.getNombre())){
+                    if (!nombre.getText().toString().equals(SesionActual.usuarioActual.getNombre())){
                         modBt.setClickable(true);
                     }
                 }
@@ -116,7 +116,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!apellido.getText().equals(SesionActual.usuarioActual.getApellido())){
+                    if (!apellido.getText().toString().equals(SesionActual.usuarioActual.getApellido())){
                         modBt.setClickable(true);
                     }
                 }
@@ -126,7 +126,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!ciudad.getText().equals(SesionActual.usuarioActual.getCiudad())){
+                    if (!ciudad.getText().toString().equals(SesionActual.usuarioActual.getCiudad())){
                         modBt.setClickable(true);
                     }
                 }
@@ -136,7 +136,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!carrera.getText().equals(SesionActual.usuarioActual.getCarrera())){
+                    if (!carrera.getText().toString().equals(SesionActual.usuarioActual.getCarrera())){
                         modBt.setClickable(true);
                     }
                 }
@@ -146,7 +146,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if (!edad.getText().equals(edadS)){
+                    if (!edad.getText().toString().equals(edadS)){
                         modBt.setClickable(true);
                     }
                 }

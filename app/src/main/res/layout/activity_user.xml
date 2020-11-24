@@ -41,9 +41,10 @@
                 android:layout_width="237dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="124dp"
                 android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -61,9 +62,10 @@
                 android:layout_width="237dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="124dp"
                 android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nombreTxt" />
 
@@ -81,9 +83,10 @@
                 android:layout_width="237dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="124dp"
                 android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/apellidoTxt" />
 
@@ -101,10 +104,11 @@
                 android:layout_width="237dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
                 android:layout_marginTop="40dp"
-                android:textSize="18dp"
+                android:layout_marginEnd="124dp"
                 android:inputType="number"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/carreraTxt" />
 
@@ -122,10 +126,11 @@
                 android:layout_width="237dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginEnd="124dp"
                 android:inputType="textNoSuggestions"
                 android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edadTxt" />
 
@@ -146,14 +151,16 @@
                 android:id="@+id/eliminarUsuarioBt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
                 android:layout_marginTop="104dp"
                 android:layout_marginEnd="97dp"
                 android:background="@drawable/borde_redondo"
-                android:backgroundTint="@color/red"
 
+                android:backgroundTint="@color/red"
                 android:text="Eliminar Usuario"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/modBt"
                 app:layout_constraintTop_toBottomOf="@+id/ciudadTxt" />
 
             <ImageButton
