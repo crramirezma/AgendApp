@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Menu.ui.Asignaturas.configAsignatura"></activity>
+        <activity android:name=".Menu.ui.Tareas.Datos_Tarea"></activity>
+        <activity android:name=".Menu.ui.Asignaturas.configAsignatura" />
         <activity android:name=".Menu.ui.Asignaturas.subCarpetas.SubtemaActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
