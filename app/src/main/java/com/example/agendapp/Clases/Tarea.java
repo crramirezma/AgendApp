@@ -4,9 +4,9 @@ public class Tarea {
 
     private String nombreTarea;
     private int estadoTarea;
-    // 1 : Tarea Completada
-    // 2 : Tarea Pendiente
-    // 3 : Tarea en Proceso
+    // 1 : Tarea Pendiente
+    // 2 : Tarea en Proceso
+    // 3 : Tarea completada
     
 
 
