@@ -7,9 +7,6 @@ public class Tarea {
     // 1 : Tarea Pendiente
     // 2 : Tarea en Proceso
     // 3 : Tarea completada
-    
-
-
 
     public Tarea(String nombreTarea,int estadoTarea){
         this.nombreTarea = nombreTarea;
