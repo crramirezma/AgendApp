@@ -1,5 +1,6 @@
 package com.example.agendapp.Adapters;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,8 @@ public class TablerosAdapter extends RecyclerView.Adapter<TablerosAdapter.Tabler
 
     @Override
     public void onBindViewHolder(@NonNull Tablerosholder holder, int position) {
-        Uri imagen = TablerosLista.get(position).getImagen();
+        System.out.println(TablerosLista.get(position).getImagen() +" "+TablerosLista.get(position).getNombre());
+        Bitmap imagen = TablerosLista.get(position).getImagen();
         String nombre = TablerosLista.get(position).getNombre();
         holder.setData(imagen, nombre);
     }
@@ -56,8 +58,8 @@ public class TablerosAdapter extends RecyclerView.Adapter<TablerosAdapter.Tabler
             nombre = itemView.findViewById(R.id.nombreTablero);
         }
 
-        public void setData(Uri imagen, String nombre) {
-            this.imagen.setImageURI(imagen);
+        public void setData(Bitmap imagen, String nombre) {
+            this.imagen.setImageBitmap(imagen);
             this.nombre.setText(nombre);
         }
 

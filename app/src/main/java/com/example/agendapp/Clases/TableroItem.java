@@ -1,19 +1,20 @@
 package com.example.agendapp.Clases;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 public class TableroItem {
     private String nombre;
-    private Uri imagen;
-    public TableroItem(String nombre, Uri imagen) {
+    private Bitmap imagen;
+    public TableroItem(String nombre, Bitmap imagen) {
         this.nombre = nombre;
         this.imagen = imagen;
     }
-    public void setImagen(Uri imagen) {
+    public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
     }
 
-    public Uri getImagen() {
+    public Bitmap getImagen() {
         return imagen;
     }
     public void setNombre(String nombre) {

@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/nombreTablero"
-        android:layout_width="107dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="37dp"
-        android:textColor="@color/pink"
+        android:layout_width="155dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
         android:text="TextView"
+        android:textColor="@color/pink"
+        android:textSize="30dp"
         app:layout_constraintStart_toEndOf="@+id/imagenTablero"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imagenTablero"
-        android:layout_width="88dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="161dp"
+        android:layout_height="147dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

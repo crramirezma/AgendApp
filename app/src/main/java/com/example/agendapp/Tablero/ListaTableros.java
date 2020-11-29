@@ -3,6 +3,8 @@ package com.example.agendapp.Tablero;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +21,7 @@ import com.example.agendapp.Clases.TableroItem;
 import com.example.agendapp.R;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +43,17 @@ public class ListaTableros extends AppCompatActivity {
         tableros.setLayoutManager(layoutManager);
         System.out.println("Error 404");
         File f = this.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        File d = new File(f, "/Tableros/tablero1.jgp");
+        File d = new File(f, "/Tableros/tablero1.jpg");
+
+        BitmapFactory.Options config = new BitmapFactory.Options();
+        config.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap imagen = BitmapFactory.decodeFile(d.getAbsolutePath());
+
         List<TableroItem> tablerosLista = new ArrayList<>();
 
-        tablerosLista.add(new TableroItem("Diego", Uri.fromFile(d)));
+        tablerosLista.add(new TableroItem("Diego.png", imagen));
+        tablerosLista.add(new TableroItem("Diego.png", imagen));
+
 
         TablerosAdapter adapter = new TablerosAdapter(tablerosLista);
         tableros.setAdapter(adapter);
