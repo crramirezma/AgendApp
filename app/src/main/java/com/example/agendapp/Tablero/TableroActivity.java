@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaTableros extends AppCompatActivity {
+public class TableroActivity extends AppCompatActivity {
     private final int REQUEST_WRITE_EXTERNAL=0;
     private final int REQUEST_READ_EXTERNAL=1;
     private RecyclerView tableros;
@@ -51,9 +52,11 @@ public class ListaTableros extends AppCompatActivity {
 
         List<TableroItem> tablerosLista = new ArrayList<>();
 
-        tablerosLista.add(new TableroItem("Diego.png", imagen));
-        tablerosLista.add(new TableroItem("Diego.png", imagen));
+        tablerosLista.add(new TableroItem("Diego.png"));
+        tablerosLista.add(new TableroItem("Diego.png"));
 
+        tablerosLista.get(0).setImagen(imagen);
+        tablerosLista.get(1).setImagen(imagen);
 
         TablerosAdapter adapter = new TablerosAdapter(tablerosLista);
         tableros.setAdapter(adapter);
@@ -92,4 +95,6 @@ public class ListaTableros extends AppCompatActivity {
     }
 
 
+    public void returnOnClick(View view) {
+    }
 }

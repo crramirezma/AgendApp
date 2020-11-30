@@ -21,13 +21,9 @@
         <activity android:name=".Menu.ui.Asignaturas.configAsignatura" />
         
         <activity
-            android:name=".Tablero.ListaTableros"
+            android:name=".Tablero.TableroActivity"
             android:label="@string/title_activity_lista_tableros">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Menu.ui.Asignaturas.subCarpetas.SubtemaActivity" />
         <!--
@@ -43,7 +39,12 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".Registro.Register" />
         <activity android:name=".Login.Login" />
+
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

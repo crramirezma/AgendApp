@@ -6,18 +6,8 @@ import android.net.Uri;
 public class TableroItem {
     private String nombre;
     private Bitmap imagen;
-    public TableroItem(String nombre, Bitmap imagen) {
-        this.nombre = nombre;
-        this.imagen = imagen;
-    }
-    public void setImagen(Bitmap imagen) {
-        this.imagen = imagen;
-    }
-
-    public Bitmap getImagen() {
-        return imagen;
-    }
-    public void setNombre(String nombre) {
+    private int id;
+    public TableroItem(String nombre) {
         this.nombre = nombre;
     }
 
@@ -25,4 +15,23 @@ public class TableroItem {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

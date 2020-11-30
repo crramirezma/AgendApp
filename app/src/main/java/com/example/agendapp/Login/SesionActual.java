@@ -1,6 +1,7 @@
 package com.example.agendapp.Login;
 
 import com.example.agendapp.Clases.Asignatura;
+import com.example.agendapp.Clases.Subtema;
 import com.example.agendapp.Clases.Usuario;
 
 import java.util.ArrayList;
@@ -11,4 +12,6 @@ public class SesionActual {
 
     //Esta sera la asignatura con la que se carguen los datos en subtema
     public static Asignatura asignatura;
+
+    public static Subtema subtema;
 }
