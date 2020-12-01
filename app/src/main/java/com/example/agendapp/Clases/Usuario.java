@@ -11,7 +11,7 @@ public class Usuario {
     private int edad=0;
     private String ciudad;
 
-
+    private ArrayList<Tarea> tareas =new ArrayList<>();
     private ArrayList<Asignatura> asignaturas=new ArrayList<>();
 
 
@@ -122,5 +122,17 @@ public class Usuario {
 
     public void setAsignatura(int posicion, Asignatura asignatura){
         asignaturas.set(posicion,asignatura);
+    }
+
+    public ArrayList<Tarea> getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(ArrayList<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
+    public void addTarea(Tarea tarea){
+        this.tareas.add(tarea);
     }
 }

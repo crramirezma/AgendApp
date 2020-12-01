@@ -11,4 +11,7 @@ public class SesionActual {
 
     //Esta sera la asignatura con la que se carguen los datos en subtema
     public static Asignatura asignatura;
+
+    //Esta sera la posición de la Tarea que se piensa modificar
+    public static int posTarea=-1;
 }

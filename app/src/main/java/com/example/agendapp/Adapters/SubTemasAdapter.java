@@ -90,8 +90,8 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                         /**Zona para desplegar el tablero
                          *
                          */
-
-
+                        int pos=Integer.parseInt(Numero.getText().toString());
+                        Toast.makeText(context,SesionActual.asignatura.getSubtemas().get(pos).getNombreSubtema(),Toast.LENGTH_SHORT).show();
 
 
                     }else if(opciones[which].equals(eliminar)) {

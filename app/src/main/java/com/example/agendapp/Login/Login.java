@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.agendapp.Clases.Asignatura;
+import com.example.agendapp.Clases.Tarea;
 import com.example.agendapp.Clases.Usuario;
 import com.example.agendapp.MainActivity;
 import com.example.agendapp.Menu.MenuActivity;
@@ -241,6 +242,70 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
 
                     //Zona de Intents y nuevas vistas
                     /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
+
+                    llenarTareas();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                llenarTareas();
+                Toast.makeText ( getApplicationContext (),"No tienes asignaturas programadas",Toast.LENGTH_SHORT).show ();
+
+
+            }
+        });
+        rq = Volley.newRequestQueue (getApplicationContext ());
+        rq.add(jrq);
+    }
+
+    public void llenarTareas(){
+        String url="http://agendapp.atwebpages.com/Tareas/listaTareas.php?usuario="+SesionActual.usuarioActual.getUsuario();
+        url=url.replace(" ","%20");
+        jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Tarea tarea;
+
+
+                JSONArray json;
+
+                int id;
+                int estado;
+                String nombreTarea;
+
+
+                JSONObject jsonObject;
+
+
+                json=response.optJSONArray("Tareas");
+                try {
+                    for(int i=0;i<json.length();i++){
+
+
+
+
+                        jsonObject=json.getJSONObject(i);
+                        id=jsonObject.optInt("id");
+                        nombreTarea=jsonObject.optString("nombre");
+                        estado=jsonObject.optInt("estado");
+
+
+                        tarea=new Tarea(nombreTarea,estado);
+                        tarea.setId(id);
+
+                        SesionActual.usuarioActual.addTarea(tarea);
+
+                    }
+
+                    //Zona de Intents y nuevas vistas
+                    /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
+
+
                     Intent intent = new Intent ( Login.this, MenuActivity.class );
                     Login.this.startActivity(intent);
                     Login.this.finish();
@@ -256,7 +321,7 @@ public class Login extends AppCompatActivity implements Response.Listener<JSONOb
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText ( getApplicationContext (),"No tienes asignaturas programadas",Toast.LENGTH_SHORT).show ();
+                Toast.makeText ( getApplicationContext (),"No tienes tareas programadas",Toast.LENGTH_SHORT).show ();
                 Intent intent = new Intent ( Login.this, MenuActivity.class );
                 Login.this.startActivity(intent);
                 Login.this.finish();
