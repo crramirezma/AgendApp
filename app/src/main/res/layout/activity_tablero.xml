@@ -5,27 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".tablero.Tablero">
+    tools:context=".Tablero.Tablero">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CanvasLayout"
         android:layout_width="375dp"
         android:layout_height="558dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@id/Herramientas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.agendapp.tablero.MyCanvas
+        <com.example.agendapp.Tablero.MyCanvas
             android:id="@+id/Lienzo"
             android:layout_width="360dp"
             android:layout_height="564dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -191,11 +193,10 @@
             android:layout_width="73dp"
             android:layout_height="29dp"
             android:layout_marginStart="28dp"
-            android:layout_marginLeft="28dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="5dp"
-            android:onClick="cargarTablero"
-            android:text="Cargar"
+            android:onClick="volver"
+            android:text="Volver"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

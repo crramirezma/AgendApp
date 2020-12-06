@@ -1,10 +1,12 @@
-package com.example.agendapp.tablero;
+package com.example.agendapp.Tablero;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -15,63 +17,37 @@ import android.widget.Toast;
 import android.widget.Switch;
 
 
+
+
 import com.example.agendapp.R;
 
 public class Tablero extends AppCompatActivity {
 
-    private final int REQUEST_WRITE_EXTERNAL=0;
-    private final int REQUEST_READ_EXTERNAL=1;
-    private MyCanvas myCanvas;
-    private Switch fondoSwitch;
+    public static String nombreTablero;
+    protected MyCanvas myCanvas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Permisos();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablero);
         myCanvas = findViewById(R.id.Lienzo);
-
+        myCanvas.context = this;
 
     }
-
-    public void Permisos(){
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,
-                    new String []{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_WRITE_EXTERNAL);
-        }else if(ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_READ_EXTERNAL);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if(requestCode==REQUEST_WRITE_EXTERNAL){
-                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(getApplicationContext(),"Permiso Concedido",Toast.LENGTH_SHORT).show();
-
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"Permiso Denegado",Toast.LENGTH_SHORT).show();
-
-            }else if(requestCode==REQUEST_READ_EXTERNAL){
-                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(getApplicationContext(),"Permiso de READ_external Concedido",Toast.LENGTH_SHORT).show();
-
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"Permiso de READ_external Denegado",Toast.LENGTH_SHORT).show();
-
-            }
-        }
-
     public void GuardarTablero(View view) {
-        myCanvas.guardarTablero();
+
+        if(this.nombreTablero==null) {
+            NuevoTableroDialog nuevotablero = new NuevoTableroDialog(this, this);
+            nuevotablero.show(getSupportFragmentManager(), "Nuevo Dialogo");
+        }
+        else{
+            this.myCanvas.guardarTablero(nombreTablero);
+        }
     }
 
-    public void cargarTablero(View view) {
-        myCanvas.cargarTablero("tablero1");
-
+    public void cargarTablero(String nombre) {
+        myCanvas.cargarTablero(nombre);
     }
 
 
@@ -115,4 +91,17 @@ public class Tablero extends AppCompatActivity {
         myCanvas.setmodoBrocha(false);
     }
 
+    public String getNombreTablero() {
+        return nombreTablero;
+    }
+
+    public void setNombreTablero(String nombreTablero) {
+        this.nombreTablero = nombreTablero;
+    }
+
+
+    public void volver(View view) {
+        nombreTablero = null;
+        finish();
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.agendapp.tablero;
+package com.example.agendapp.Tablero;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
 import java.util.Vector;
 
 import androidx.annotation.Nullable;
@@ -26,9 +28,10 @@ public class MyCanvas extends View {
     protected Bitmap cache, imagen;
     protected Canvas canvasDibujo;
     protected int colorFondo = Color.WHITE;
-    protected String nombreArchivo = "tablero1";
     protected Vector Fondo;
     protected boolean modoBrocha;
+    protected Context context;
+    protected boolean todoListo=false;
 
     public MyCanvas(Context context, @Nullable AttributeSet attrs) {
 
@@ -54,6 +57,8 @@ public class MyCanvas extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         cache = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvasDibujo = new Canvas(cache);
+
+        if(Tablero.nombreTablero != null) cargarTablero(Tablero.nombreTablero);
     }
 
     @Override
@@ -111,38 +116,54 @@ public class MyCanvas extends View {
     }
 
 
-    public void guardarTablero() {
+    public void guardarTablero(String nombre) {
 
         //this.setDrawingCacheEnabled(true);
         File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File tableros = new File(root, "/Tableros/");
+        tableros.mkdirs();
+        File imagen = new File(tableros, nombre + ".jpg");
+
+
+
+            try {
+                if (!imagen.exists()) imagen.createNewFile();
+                FileOutputStream out = new FileOutputStream(imagen);
+                cache.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+                Toast.makeText(context,"Hecho ´ç`",Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+
+        //this.setDrawingCacheEnabled(false);
+    }
+
+    public boolean existeTablero(String nombre){
+        File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File tableros = new File(root,  "/Tableros/");
         tableros.mkdirs();
-        File imagen = new File(tableros,  nombreArchivo + ".jpg");
+        File imagen = new File(tableros,  nombre + ".jpg");
 
-
-
-        //System.out.println(imagen.getAbsoluteFile());
-
-        try {
-            if (!imagen.exists()) imagen.createNewFile();
-            FileOutputStream out = new FileOutputStream(imagen);
-            cache.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(imagen.exists()){
+            return false;
         }
-        //this.setDrawingCacheEnabled(false);
+        else{
+            return false;
+        }
+
     }
 
     public void cargarTablero(String nombre){
         File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File archivo = new File(root, "/Tableros/"+nombre+".jpg");
+        if(archivo.exists())System.out.println(archivo.getAbsolutePath());
+
         BitmapFactory.Options config = new BitmapFactory.Options();
         config.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap imagen = BitmapFactory.decodeFile(archivo.getAbsolutePath());
-
         ponerImagen(imagen);
     }
 

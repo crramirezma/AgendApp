@@ -19,6 +19,11 @@
             android:icon="@drawable/ic_tareas"
             android:title="Tareas"
             />
+        <item
+            android:id="@+id/nav_creditos"
+            android:icon="@drawable/ic_tareas"
+            android:title="Creditos"
+            />
 
     </group>
     <group>

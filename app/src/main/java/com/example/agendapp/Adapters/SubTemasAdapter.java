@@ -143,10 +143,15 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                         /**Zona para desplegar el tablero
                          *
                          */
-                        
-                        SesionActual.subtema= SesionActual.asignatura.getSubtemas().get(Integer.parseInt(Numero.getText().toString()));
-                        llenarTableros();
-
+                        SesionActual.subtema = SesionActual.asignatura.getSubtemas().get(Integer.parseInt(Numero.getText().toString()));
+                        if(SesionActual.subtema.getTableros().size()==0) {
+                            llenarTableros();
+                        }
+                        else{
+                            Intent intent=new Intent(context, TableroActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
 
 
                     }else if(opciones[which].equals(eliminar)) {
@@ -210,8 +215,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
         public void llenarTableros(){
             //aqui se hara la consulta a la base de datos de los subtemas de la asignatura
 
-            String url="http://agendapp.atwebpages.com/Asignaturas/Subtemas/listarTableros.php?idA="+564;
-
+            String url="http://agendapp.atwebpages.com/Asignaturas/Subtemas/listarTableros.php?idS="+SesionActual.subtema.getId();
             url=url.replace(" ","%20");
             jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
@@ -228,9 +232,10 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                     double tiempo;
 
                     JSONObject jsonObject;
+                    System.out.println("Con: "+ SesionActual.subtema.getId()+"JSON: "+response.toString());
 
+                    json=response.optJSONArray("tableros");
 
-                    json=response.optJSONArray("subtemas");
 
                     try {
                         for(int i=0;i<json.length();i++){
@@ -247,9 +252,6 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
 
 
                         }
-
-
-
 
                         //Zona de Intents y nuevas vistas
                         /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
@@ -272,14 +274,11 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    /*
-
-                    Toast.makeText ( context,"No tienes tareas programadas",Toast.LENGTH_SHORT).show ();
+                    Toast.makeText(context,"No tienes Tableros en este subtema",Toast.LENGTH_SHORT).show ();
                     Intent intent;
-                        intent=new Intent(context, TableroActivity.class);
-                        context.startActivity(intent);
-                    */
-
+                    intent=new Intent(context, TableroActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
 
 
 
