@@ -118,6 +118,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
         public void asignarDatos(int i){
             asignaturaNombre.setText(SesionActual.usuarioActual.getAsignaturas().get(i).getNombre());
             NumeroTxt.setText(i+"");
+            System.out.println(SesionActual.usuarioActual.getAsignaturas().get(i).getNombre());
             //cambiando la imagen del icono
 
             asignarFondo(SesionActual.usuarioActual.getAsignaturas().get(i).isBloqueado());

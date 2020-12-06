@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +19,30 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.agendapp.Clases.Subtema;
+import com.example.agendapp.Clases.TableroItem;
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.Botones.BotonesDialog;
+import com.example.agendapp.Menu.ui.Asignaturas.configAsignatura;
+import com.example.agendapp.Menu.ui.Asignaturas.subCarpetas.SubtemaActivity;
 import com.example.agendapp.R;
+import com.example.agendapp.Tablero.TableroActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-
+import java.io.File;
 
 
 public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.SubtemasHolder>  {
+
 
     Context context;
     Activity activity;
@@ -34,20 +53,54 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
 
 
     public SubTemasAdapter (Context context, Activity activity){
-
         this.context=context;
         this.activity=activity;
     }
 
+    @NonNull
+    @Override
+    public SubtemasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View vista= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_subtema,parent,false);
+        RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                ,ViewGroup.LayoutParams.WRAP_CONTENT);
+        vista.setLayoutParams(layoutParams);
+        return new SubtemasHolder(vista,context);
+    }
 
+    @Override
+    public void onBindViewHolder(@NonNull SubtemasHolder holder, int position) {
+        try{
+            holder.nombreSubtema.setText( SesionActual.asignatura.getSubtemas().get(position).getNombreSubtema());
+            holder.Numero.setText(position+"");
+
+            holder.subtemaBt.setImageResource(R.drawable.opcion_1);
+            holder.asignarIcono(SesionActual.asignatura.getSubtemas().get(position).getIcono());
+
+
+
+
+        }catch(IndexOutOfBoundsException e){
+            Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return SesionActual.asignatura.getSubtemas().size();
+    }
 
     public class SubtemasHolder extends RecyclerView.ViewHolder {
+
+        JsonRequest jrq;
+        RequestQueue rq;
         TextView nombreSubtema;
         TextView Numero;
 
         //Buttons
         ImageButton subtemaBt;
-
+        //
 
         Context context;
 
@@ -90,8 +143,15 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                         /**Zona para desplegar el tablero
                          *
                          */
-                        int pos=Integer.parseInt(Numero.getText().toString());
-                        Toast.makeText(context,SesionActual.asignatura.getSubtemas().get(pos).getNombreSubtema(),Toast.LENGTH_SHORT).show();
+                        SesionActual.subtema = SesionActual.asignatura.getSubtemas().get(Integer.parseInt(Numero.getText().toString()));
+                        if(SesionActual.subtema.getTableros().size()==0) {
+                            llenarTableros();
+                        }
+                        else{
+                            Intent intent=new Intent(context, TableroActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
 
 
                     }else if(opciones[which].equals(eliminar)) {
@@ -151,40 +211,87 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
             }
         }
 
-    }
+
+        public void llenarTableros(){
+            //aqui se hara la consulta a la base de datos de los subtemas de la asignatura
+
+            String url="http://agendapp.atwebpages.com/Asignaturas/Subtemas/listarTableros.php?idS="+SesionActual.subtema.getId();
+            url=url.replace(" ","%20");
+            jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    TableroItem tablero;
+
+                    JSONArray json;
+                    int id;
+                    int icono;
+
+                    String nombreTablero;
+
+                    double tiempo;
+
+                    JSONObject jsonObject;
+                    System.out.println("Con: "+ SesionActual.subtema.getId()+"JSON: "+response.toString());
+
+                    json=response.optJSONArray("tableros");
+
+
+                    try {
+                        for(int i=0;i<json.length();i++){
+
+                            jsonObject=json.getJSONObject(i);
+                            id=jsonObject.optInt("id");
+                            nombreTablero=jsonObject.optString("nombre");
+
+                            tablero=new TableroItem(nombreTablero);
+                            tablero.setId(id);
+
+                            //Agregar
+                            SesionActual.subtema.addTablero(tablero);
+
+
+                        }
+
+                        //Zona de Intents y nuevas vistas
+                        /* Gracias a que se declaran justo en el hilo donde se ejecuta la busqueda, la nueva vista vendra crgada y sincronizada con los datos del valor estatico*/
+
+                        Intent intent;
+                        intent=new Intent(context, TableroActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
 
 
 
-    @NonNull
-    @Override
-    public SubtemasHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vista= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_subtema,parent,false);
-        RecyclerView.LayoutParams layoutParams=new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                ,ViewGroup.LayoutParams.WRAP_CONTENT);
-        vista.setLayoutParams(layoutParams);
-        return new SubtemasHolder(vista,context);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull SubtemasHolder holder, int position) {
-        try{
-            holder.nombreSubtema.setText( SesionActual.asignatura.getSubtemas().get(position).getNombreSubtema());
-            holder.Numero.setText(position+"");
-            holder.subtemaBt.setImageResource(R.drawable.opcion_1);
-            holder.asignarIcono(SesionActual.asignatura.getSubtemas().get(position).getIcono());
 
 
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(context,e.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context,"No tienes Tableros en este subtema",Toast.LENGTH_SHORT).show ();
+                    Intent intent;
+                    intent=new Intent(context, TableroActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
 
-        }catch(IndexOutOfBoundsException e){
-            Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+
+
+
+                }
+            });
+            rq = Volley.newRequestQueue (context);
+            rq.add(jrq);
+
 
         }
-
     }
 
-    @Override
-    public int getItemCount() {
-        return SesionActual.asignatura.getSubtemas().size();
-    }
+
+
 }

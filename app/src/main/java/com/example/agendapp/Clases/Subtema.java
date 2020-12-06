@@ -1,10 +1,14 @@
 package com.example.agendapp.Clases;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Subtema {
     private Asignatura asignaturaSubtema;
     private String nombreSubtema;
     private int id;
     private int icono;
+    private List<TableroItem> tableros = new ArrayList<>();
 
     public Asignatura getAsignaturaSubtema() {
         return asignaturaSubtema;
@@ -51,4 +55,15 @@ public class Subtema {
         this.asignaturaSubtema= asignaturaSubtema;
     }
 
+    public List<TableroItem> getTableros() {
+        return tableros;
+    }
+
+    public void setTableros(List<TableroItem> tableros) {
+        this.tableros = tableros;
+    }
+
+    public void addTablero(TableroItem tablero){
+        this.tableros.add(tablero);
+    }
 }
