@@ -159,12 +159,13 @@ public class MyCanvas extends View {
     public void cargarTablero(String nombre){
         File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File archivo = new File(root, "/Tableros/"+nombre+".jpg");
-        if(archivo.exists())System.out.println(archivo.getAbsolutePath());
+        if(archivo.exists()) {
 
-        BitmapFactory.Options config = new BitmapFactory.Options();
-        config.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap imagen = BitmapFactory.decodeFile(archivo.getAbsolutePath());
-        ponerImagen(imagen);
+            BitmapFactory.Options config = new BitmapFactory.Options();
+            config.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap imagen = BitmapFactory.decodeFile(archivo.getAbsolutePath());
+            ponerImagen(imagen);
+        }
     }
 
     private void ponerImagen(Bitmap imagen) {
