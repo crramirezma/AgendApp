@@ -10,9 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.agendapp.Adapters.SubTemasAdapter;
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.R;
 
@@ -32,6 +34,7 @@ public class permisosDialog extends AppCompatDialogFragment {
     private EditText password;
     Context context;
 
+    Adapter adapter;
 
     int decision;
     int posicion;
@@ -41,16 +44,17 @@ public class permisosDialog extends AppCompatDialogFragment {
      *
      * @param decision
      * Con esta variable se le dice al dialogo de "permisos" cual acción ejecutar
-     * 11:eliminar asignatura
+     * 11: eliminar asignatura
      * 12: bloquear la asignatura
      * 13: desbloquearla
-     *
+     * 21: eliminar subtema
      * 31: eliminar tarea
      */
-    public permisosDialog(int decision, int pos,Context context){
+    public permisosDialog(int decision, int pos,Context context,Adapter adapter){
         this.decision=decision;
         this.posicion=pos;
         this.context=context;
+        this.adapter=adapter;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -87,10 +91,13 @@ public class permisosDialog extends AppCompatDialogFragment {
                                 case 13:
                                     bloquearAsignatura(2,posicion);
                                     break;
-
+                                case 21:
+                                    eliminarSubtema(posicion);
+                                    break;
                                 case 31:
                                     eliminarTarea(posicion);
                                     break;
+
                             }
                         }else{
                             dialog.dismiss();
@@ -163,8 +170,9 @@ public class permisosDialog extends AppCompatDialogFragment {
                     if(v)
                         SesionActual.usuarioActual.getAsignaturas().remove(posicion);
 
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
 
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -207,8 +215,10 @@ public class permisosDialog extends AppCompatDialogFragment {
                     v = json.getBoolean(0);
                     SesionActual.usuarioActual.getAsignaturas().get(pos).setBloqueado(camb);
 
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
 
+
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -248,8 +258,10 @@ public class permisosDialog extends AppCompatDialogFragment {
                     if(v)
                         SesionActual.usuarioActual.getTareas().remove(pos);
 
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Tareas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Tareas para observar los cambios",Toast.LENGTH_SHORT).show();
 
+                    //actualizando el recycler
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -265,4 +277,49 @@ public class permisosDialog extends AppCompatDialogFragment {
         rq.add(jrq);
     }
 
+
+    public void eliminarSubtema(int posicion){
+        final int pos=posicion;
+        RequestQueue rq;
+        JsonRequest jrq;
+
+        int id=SesionActual.asignatura.getSubtemas().get(pos).getId();
+        String url="http://agendapp.atwebpages.com/Asignaturas/Subtemas/eliminarSubtema.php?idS="+id;
+        url=url.replace(" ","%20");
+
+
+
+
+        jrq=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                boolean v;
+                try {
+                    JSONArray json = response.optJSONArray("cambio");
+
+
+                    v = json.getBoolean(0);
+
+                    if(v)
+                        SesionActual.asignatura.getSubtemas().remove(pos);
+
+                    SubTemasAdapter adap=(SubTemasAdapter) adapter;
+                    adap.refresh();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Error eliminando el subtema"+error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+        rq = Volley.newRequestQueue (context);
+        rq.add(jrq);
+    }
 }
+
+

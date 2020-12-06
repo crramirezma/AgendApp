@@ -41,7 +41,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.tareasHold
 
     @Override
     public void onBindViewHolder(@NonNull tareasHolder holder, int position) {
-        holder.asignarDatos(position);
+        holder.asignarDatos(position,this);
     }
 
     @Override
@@ -56,6 +56,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.tareasHold
     //###########################################################
     public class tareasHolder extends RecyclerView.ViewHolder{
         Context context;
+        RecyclerView.Adapter adapter;
 
         int posicion;
         //TextView NumberTxt;
@@ -73,11 +74,12 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.tareasHold
             estadoButton=itemView.findViewById(R.id.estadoBt);
         }
 
-        public void asignarDatos(int position){
+        public void asignarDatos(int position, RecyclerView.Adapter adapter){
             posicion=position;
             nombreTxt.setText(SesionActual.usuarioActual.getTareas().get(position).getnombreTarea());
             String estado= Tarea.getEstado(SesionActual.usuarioActual.getTareas().get(position).getestadoTarea());
             estadoButton.setText(estado);
+            this.adapter=adapter;
 
             Listener(position);
         }
@@ -139,7 +141,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.tareasHold
 
         //para poder eliminar la Tarea, es obligatorio brindar la contraseña del usuario
         public void permiso(int decision,int pos){
-            permisosDialog permisosDialog=new permisosDialog(decision,pos,context);
+            permisosDialog permisosDialog=new permisosDialog(decision,pos,context,adapter);
             permisosDialog.show(manager,"Permisos");
         }
     }

@@ -65,7 +65,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
     public void onBindViewHolder(@NonNull asignaturasHolder holder, int position) {
         try{
 
-            holder.asignarDatos(position);
+            holder.asignarDatos(position,this);
 
         }catch (IndexOutOfBoundsException e){
 
@@ -91,6 +91,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
 
         public Context context;
+        RecyclerView.Adapter adapter;
 
         public asignaturasHolder(@NonNull View itemView,Context context) {
             super(itemView);
@@ -115,10 +116,10 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
         }
 
-        public void asignarDatos(int i){
+        public void asignarDatos(int i, RecyclerView.Adapter adapter){
             asignaturaNombre.setText(SesionActual.usuarioActual.getAsignaturas().get(i).getNombre());
             NumeroTxt.setText(i+"");
-            System.out.println(SesionActual.usuarioActual.getAsignaturas().get(i).getNombre());
+            this.adapter=adapter;
             //cambiando la imagen del icono
 
             asignarFondo(SesionActual.usuarioActual.getAsignaturas().get(i).isBloqueado());
@@ -389,7 +390,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
          * @return
          */
         public void permiso(int decision,int pos){
-            permisosDialog permisosDialog=new permisosDialog(decision,pos,context);
+            permisosDialog permisosDialog=new permisosDialog(decision,pos,context,adapter);
             permisosDialog.show(manager,"Permisos");
         }
 
