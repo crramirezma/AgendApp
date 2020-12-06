@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.agendapp.Login.SesionActual;
 import com.example.agendapp.Menu.Botones.BotonesDialog;
+import com.example.agendapp.Menu.Permisos.permisosDialog;
 import com.example.agendapp.R;
 
 
@@ -32,11 +33,15 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
     //TextView
     TextView id;
 
+    public void refresh(){
+        this.notifyDataSetChanged();
+    }
 
     public SubTemasAdapter (Context context, Activity activity){
 
         this.context=context;
         this.activity=activity;
+
     }
 
 
@@ -48,8 +53,10 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
         //Buttons
         ImageButton subtemaBt;
 
+        int posicion;
 
         Context context;
+        RecyclerView.Adapter adapter;
 
 
 
@@ -78,6 +85,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
             final String cambiarI="Cambiar Icono";
             final CharSequence[] opciones={desplegar,cambiarI,eliminar,cancelar};
 
+            final int pos=posicion;
             builder.setTitle("Escoge una accion");
             builder.setItems(opciones, new DialogInterface.OnClickListener()  {
                 @Override
@@ -95,6 +103,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
 
 
                     }else if(opciones[which].equals(eliminar)) {
+                        permiso(21,pos);
                         Toast.makeText(context, "Eliminar", Toast.LENGTH_SHORT).show();
                     }else if(opciones[which].equals(cambiarI)){
                         try{
@@ -150,6 +159,10 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
 
             }
         }
+        public void  permiso(int decision, int pos){
+            permisosDialog permisosDialog=new permisosDialog(decision,pos,context,adapter);
+            permisosDialog.show(manager,"Permisos");
+        }
 
     }
 
@@ -172,8 +185,8 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
             holder.Numero.setText(position+"");
             holder.subtemaBt.setImageResource(R.drawable.opcion_1);
             holder.asignarIcono(SesionActual.asignatura.getSubtemas().get(position).getIcono());
-
-
+            holder.posicion=position;
+            holder.adapter=this;
 
 
         }catch(IndexOutOfBoundsException e){
