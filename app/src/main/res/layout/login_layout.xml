@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="login.css"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -77,9 +78,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="90dp"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="204dp"
+                android:layout_marginStart="84dp"
+                android:layout_marginLeft="84dp"
+                android:layout_marginTop="128dp"
                 android:text="Iniciar sesión"
                 android:textColor="#000000"
                 android:textSize="30sp"
@@ -119,13 +120,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/iniciarBt" />
 
             <TextView
-                android:id="@+id/usuarioMsg"
+                android:id="@+id/usuarioLmsg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="101dp"
-                android:layout_marginLeft="101dp"
+                android:layout_marginStart="107dp"
+                android:layout_marginLeft="107dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/usuarioTxt" />
+
+            <TextView
+                android:id="@+id/contraseñaLmsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="105dp"
+                android:layout_marginLeft="105dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contraseñaTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".Tablero.Tablero">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/CanvasLayout"
+        android:layout_width="375dp"
+        android:layout_height="558dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/Herramientas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.agendapp.Tablero.MyCanvas
+            android:id="@+id/Lienzo"
+            android:layout_width="360dp"
+            android:layout_height="564dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Herramientas"
+        android:layout_width="359dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/circulo"
+        android:backgroundTint="#F7738A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/guardarTablero"
+            android:layout_width="84dp"
+            android:layout_height="43dp"
+            android:onClick="GuardarTablero"
+            android:text="Guardar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.102" />
+
+        <Button
+            android:id="@+id/rojo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginRight="19dp"
+            android:background="@drawable/circulo"
+            android:backgroundTint="#ff0000"
+            android:onClick="ColorRojo"
+            app:layout_constraintEnd_toStartOf="@+id/azul"
+            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintStart_toEndOf="@+id/guardarTablero"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/azul"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/circulo"
+            android:backgroundTint="#49FCB5"
+            android:onClick="ColorAzulMarin"
+            app:layout_constraintBottom_toTopOf="@+id/tam3"
+            app:layout_constraintEnd_toStartOf="@+id/negro"
+            app:layout_constraintStart_toEndOf="@+id/rojo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/negro"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/circulo"
+            android:backgroundTint="#FFFFFF"
+            android:onClick="ColorNegro"
+            app:layout_constraintBottom_toTopOf="@+id/lapiz"
+            app:layout_constraintEnd_toStartOf="@+id/borrador"
+            app:layout_constraintStart_toEndOf="@+id/azul"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/borrador"
+            android:layout_width="36dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="49dp"
+            android:layout_marginRight="49dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/eraser"
+            android:onClick="Borrador"
+            app:layout_constraintBottom_toTopOf="@+id/brocha"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/negro"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/tam1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/circulo"
+            android:backgroundTint="#000000"
+            android:onClick="tamaño1"
+            app:layout_constraintStart_toEndOf="@+id/tam3"
+            app:layout_constraintTop_toBottomOf="@+id/azul" />
+
+        <Button
+            android:id="@+id/tam2"
+            android:layout_width="32dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circulo"
+            android:backgroundTint="#000000"
+            android:onClick="tamaño3"
+            app:layout_constraintStart_toEndOf="@+id/guardarTablero"
+            app:layout_constraintTop_toBottomOf="@+id/rojo" />
+
+        <Button
+            android:id="@+id/tam3"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circulo"
+            android:backgroundTint="#000000"
+            android:onClick="tamaño2"
+            app:layout_constraintStart_toEndOf="@+id/tam2"
+            app:layout_constraintTop_toBottomOf="@+id/azul" />
+
+        <Button
+            android:id="@+id/brocha"
+            android:layout_width="36dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginLeft="23dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/brocha"
+            android:onClick="modoBrocha"
+            app:layout_constraintStart_toEndOf="@+id/tam1"
+            app:layout_constraintTop_toBottomOf="@+id/negro" />
+
+        <Button
+            android:id="@+id/lapiz"
+            android:layout_width="36dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/ic_lapiz"
+            android:onClick="modoLapiz"
+            app:layout_constraintStart_toEndOf="@+id/brocha"
+            app:layout_constraintTop_toBottomOf="@+id/borrador" />
+
+        <Button
+            android:id="@+id/cargarTablero"
+            android:layout_width="73dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="volver"
+            android:text="Volver"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guardarTablero" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

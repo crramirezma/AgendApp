@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group>
+
+    </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Principal" />
+        <item
+            android:id="@+id/nav_asignatura"
+            android:icon="@drawable/opcion_1"
+            android:title="Asignaturas" />
+        <item
+            android:id="@+id/nav_tareas"
+            android:icon="@drawable/ic_tareas"
+            android:title="Tareas"
+            />
+        <item
+            android:id="@+id/nav_creditos"
+            android:icon="@drawable/ic_copyright"
+            android:title="Creditos"
+            />
+
+    </group>
+    <group>
+        <item
+            android:id="@+id/nav_calculator"
+            android:icon="@drawable/ic_calculator"
+            android:title="Calculadora" />
+
+    </group>
+</menu>

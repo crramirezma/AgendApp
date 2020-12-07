@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/opcion1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/opcion_1" />
+
+            <ImageButton
+                android:id="@+id/opcion2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/opcion_2" />
+
+            <ImageButton
+                android:id="@+id/opcion3"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toEndOf="@+id/opcion2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/opcion_3" />
+
+
+            <ImageButton
+                android:id="@+id/opcion4"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="54dp"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/opcion1"
+                app:srcCompat="@drawable/opcion_4" />
+
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/opcion5"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="54dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/opcion2"
+                app:srcCompat="@drawable/opcion_5" />
+
+            <ImageButton
+                android:id="@+id/opcion6"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="54dp"
+                app:layout_constraintStart_toEndOf="@+id/opcion5"
+                app:layout_constraintTop_toBottomOf="@+id/opcion3"
+                app:srcCompat="@drawable/opcion_6" />
+
+
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/opcion7"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="54dp"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/opcion4"
+                app:srcCompat="@drawable/opcion_7" />
+
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/opcion8"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="54dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/opcion4"
+                app:srcCompat="@drawable/opcion_8" />
+
+            <ImageButton
+                android:id="@+id/opcion9"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="54dp"
+                app:layout_constraintStart_toEndOf="@+id/opcion5"
+                app:layout_constraintTop_toBottomOf="@+id/opcion6"
+                app:srcCompat="@drawable/opcion_9" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

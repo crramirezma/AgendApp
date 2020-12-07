@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Tablero.TableroActivity">
+
+    <ImageButton
+
+        android:id="@+id/returnBt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="68dp"
+
+        android:background="@null"
+        android:onClick="returnOnClick"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@+id/subtemaTxt"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_before" />
+
+    <TextView
+        android:id="@+id/subtemaTxt"
+        android:layout_width="177dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="16dp"
+        android:autoSizeTextType="uniform"
+        android:autoText="false"
+        android:isScrollContainer="true"
+
+        android:scrollbars="horizontal"
+        android:scrollHorizontally="true"
+        android:textAlignment="center"
+        android:textSize="80dp"
+        app:layout_constraintStart_toEndOf="@+id/returnBt2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/nuevoTablero"
+        android:layout_width="25dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@null"
+        android:onClick="nuevoTablero"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_create_new_folder" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tableros"
+        android:layout_width="331dp"
+        android:layout_height="527dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="39dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/returnBt2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
