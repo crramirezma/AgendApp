@@ -132,7 +132,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
             int pos;
             try{
                 pos=Integer.parseInt(NumeroTxt.getText().toString());
-                AsignaturaDialog asignaturaDialog=new AsignaturaDialog(pos,context);
+                AsignaturaDialog asignaturaDialog=new AsignaturaDialog(pos,context,adapter);
                 asignaturaDialog.show(((AppCompatActivity) context).getSupportFragmentManager(),"Nuevo Dialogo");
             }catch (Exception e){
                 Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
@@ -182,7 +182,8 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                     }else if(opciones[which].equals(eliminar)){
                         permiso(11,pos);
                     }else if(opciones[which].equals(icono)){
-                        BotonesDialog botonesDialog=new BotonesDialog(pos,context,true);
+
+                        BotonesDialog botonesDialog=new BotonesDialog(pos,context,true,adapter);
                         botonesDialog.show(manager,"Escoge un nuevo icono");
                     }else if(opciones[which].equals(subtemas)){
 
@@ -212,6 +213,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
                         }else{
                             Intent intent=new Intent(context, configAsignatura.class);
                             context.startActivity(intent);
+
                         }
                     }
                 }

@@ -70,7 +70,7 @@ public class TareasFragment extends Fragment {
 
     //Esta función se encarga de llamar al dialogo que se encargara de subir la nueva tarea
     public void crearTarea(){
-        TareaDialog tareaDialog=new TareaDialog(getActivity());
+        TareaDialog tareaDialog=new TareaDialog(getActivity(),recycler.getAdapter());
         tareaDialog.show(getParentFragmentManager(),"Nuevo dialogo");
     }
 

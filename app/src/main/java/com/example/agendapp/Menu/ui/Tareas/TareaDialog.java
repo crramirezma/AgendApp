@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,26 +32,29 @@ import org.json.JSONObject;
 public class TareaDialog extends AppCompatDialogFragment {
     RequestQueue rq;
     JsonRequest jrq;
+    Adapter adapter;
 
     Context context;
 
     int posicion;
     EditText nombre;
-    public  TareaDialog(Context con){
+    public  TareaDialog(Context con,Adapter adapter){
         context=con;
+        this.adapter=adapter;
     }
 
 
-    public TareaDialog(int posicion,Context con){
+    public TareaDialog(int posicion,Context con, Adapter adapter){
         this.posicion=posicion;
         context=con;
+        this.adapter=adapter;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         LayoutInflater inflater=getActivity().getLayoutInflater();
-        View view =inflater.inflate(R.layout.new_subtema_layout,null);
+        View view =inflater.inflate(R.layout.new_tarea_layout,null);
         builder.setView(view)
                 .setTitle("Nueva tarea")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -69,7 +73,7 @@ public class TareaDialog extends AppCompatDialogFragment {
                             Toast.makeText(context,"El nombre no debe superar los 40 caracteres, o ser menor a 2 de ellos",Toast.LENGTH_SHORT).show();
                     }
                 });
-        nombre=view.findViewById(R.id.nuevoNombreSubtemaTxt);
+        nombre=view.findViewById(R.id.nuevoNombreTareaTxt);
         return builder.create();
     }
 
@@ -95,8 +99,8 @@ public class TareaDialog extends AppCompatDialogFragment {
 
 
                     SesionActual.usuarioActual.getTareas().add(tarea);
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Tareas para observar los cambios",Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Tareas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     Toast.makeText(context,e.toString(),Toast.LENGTH_SHORT).show();
