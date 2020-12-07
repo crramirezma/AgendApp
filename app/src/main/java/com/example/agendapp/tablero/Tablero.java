@@ -25,7 +25,7 @@ public class Tablero extends AppCompatActivity {
 
     public static String nombreTablero;
     protected MyCanvas myCanvas;
-
+    public static boolean debeCrear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -103,5 +103,13 @@ public class Tablero extends AppCompatActivity {
     public void volver(View view) {
         nombreTablero = null;
         finish();
+        if(debeCrear) {
+            Intent intent;
+            intent = new Intent(this, TableroActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
+            debeCrear = false;
+        }
+
     }
 }

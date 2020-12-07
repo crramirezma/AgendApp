@@ -47,6 +47,7 @@ public class AsignaturasAdapter extends RecyclerView.Adapter<AsignaturasAdapter.
 
     public boolean bloquear=false;
 
+
     public AsignaturasAdapter(Context context){
         this.context=context;
     }

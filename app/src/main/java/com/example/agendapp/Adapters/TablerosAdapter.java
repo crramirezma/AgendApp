@@ -85,7 +85,6 @@ public class TablerosAdapter extends RecyclerView.Adapter<TablerosAdapter.Tabler
         private ImageButton imagen;
         private TextView nombre;
         private TextView subtema;
-
         public Tablerosholder(@NonNull View itemView) {
 
             super(itemView);

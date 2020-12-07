@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.agendapp.Adapters.SubTemasAdapter;
 import com.example.agendapp.Adapters.TablerosAdapter;
 import com.example.agendapp.Clases.TableroItem;
 import com.example.agendapp.Login.SesionActual;
@@ -36,6 +37,7 @@ public class TableroActivity extends AppCompatActivity {
     private final int REQUEST_READ_EXTERNAL=1;
     private RecyclerView tableros;
     private TextView subtemaTxt;
+    public SubTemasAdapter subtemaAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,14 +65,17 @@ public class TableroActivity extends AppCompatActivity {
     public void nuevoTablero(View view) {
 
         if(SesionActual.subtema.getTableros().size()<5) {
+            Tablero.debeCrear = true;
             Intent intent;
             intent = new Intent(TableroActivity.this, Tablero.class);
             TableroActivity.this.startActivity(intent);
+            finish();
         }
         else{
 
             Toast.makeText(getApplicationContext(), "¡Límite de tableros!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public List<TableroItem> llenarImagenTableros(List<TableroItem> tableros){
