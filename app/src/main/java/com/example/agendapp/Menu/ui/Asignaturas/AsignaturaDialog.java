@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,18 +38,22 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
     JsonRequest jrq;
 
     Context context;
+    Adapter adapter;
+
 
     int posicion;
     EditText nombre;
     EditText creditos;
-    public AsignaturaDialog(Context con){
+    public AsignaturaDialog(Context con,Adapter adapter){
         context=con;
+        this.adapter=adapter;
     }
 
 
-    public AsignaturaDialog(int posicion,Context con){
+    public AsignaturaDialog(int posicion,Context con,Adapter adapter){
         this.posicion=posicion;
         context=con;
+        this.adapter=adapter;
     }
 
     @Override
@@ -117,8 +122,8 @@ public class AsignaturaDialog extends AppCompatDialogFragment {
                     Asignatura a=new Asignatura(nom,cred,1);
                     a.setId(id);
                     SesionActual.usuarioActual.addAsignatura(a);
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
                     /*Asignatura a=SesionActual.usuarioActual.getAsignaturas().get(posicion);
                     SesionActual.usuarioActual.setAsignatura(posicion,a);*/
                 } catch (JSONException e) {

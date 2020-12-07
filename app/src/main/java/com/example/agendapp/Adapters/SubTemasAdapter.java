@@ -166,7 +166,7 @@ public class SubTemasAdapter extends RecyclerView.Adapter<SubTemasAdapter.Subtem
                     }else if(opciones[which].equals(cambiarI)){
                         try{
                             int pos=Integer.parseInt(Numero.getText().toString());
-                            BotonesDialog botonesDialog=new BotonesDialog(pos,context,false);
+                            BotonesDialog botonesDialog=new BotonesDialog(pos,context,false,adapter);
                             botonesDialog.show(manager,"Escoge un nuevo icono");
                         }catch (Exception e){
                             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();

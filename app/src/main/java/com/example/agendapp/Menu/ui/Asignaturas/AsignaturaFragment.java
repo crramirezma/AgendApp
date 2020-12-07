@@ -65,7 +65,7 @@ public class AsignaturaFragment extends Fragment {
     }
 
     public void abrirDialogo(){
-        AsignaturaDialog asignaturaDialog=new AsignaturaDialog(getActivity());
+        AsignaturaDialog asignaturaDialog=new AsignaturaDialog(getActivity(),recycler.getAdapter());
         asignaturaDialog.show(getParentFragmentManager(),"Nuevo Dialogo");
     }
 

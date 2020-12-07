@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
@@ -36,6 +37,7 @@ public class BotonesDialog  extends AppCompatDialogFragment {
     Context context;
     int posicion;
     boolean decision;
+    Adapter adapter;
 
     ImageButton opcion1;
     ImageButton opcion2;
@@ -56,10 +58,11 @@ public class BotonesDialog  extends AppCompatDialogFragment {
      *           true: asignaturas
      *           false: subtemas
      */
-    public BotonesDialog(int posicion,Context con,boolean des){
+    public BotonesDialog(int posicion,Context con,boolean des,Adapter adapter){
         this.posicion=posicion;
         context=con;
         this.decision=des;
+        this.adapter=adapter;
     }
 
     @Override
@@ -181,8 +184,8 @@ public class BotonesDialog  extends AppCompatDialogFragment {
                     v = json.getBoolean(0);
                     SesionActual.usuarioActual.getAsignaturas().get(posicion).setImagen(camb);
 
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Asignaturas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -217,8 +220,8 @@ public class BotonesDialog  extends AppCompatDialogFragment {
                     SesionActual.asignatura.getSubtemas().get(posicion).setIcono(camb);
                     
 
-                    Toast.makeText(context,"Salga y entre de nuevo al apartado de Subtemas para observar los cambios",Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(context,"Salga y entre de nuevo al apartado de Subtemas para observar los cambios",Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
