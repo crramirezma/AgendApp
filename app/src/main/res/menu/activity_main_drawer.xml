@@ -21,7 +21,7 @@
             />
         <item
             android:id="@+id/nav_creditos"
-            android:icon="@drawable/ic_tareas"
+            android:icon="@drawable/ic_copyright"
             android:title="Creditos"
             />
 
